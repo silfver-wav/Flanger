@@ -1,11 +1,14 @@
 .vs
 .vscode
+.idea
 libs/
+cmake-build-debug-visual-studio/
 build/
 xcode-build/
 release-build/
 out/
 vs-build/
+
 
 # Prerequisites
 *.d
