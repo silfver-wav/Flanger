@@ -1,9 +1,8 @@
-#include "FlangerPlugin/PluginEditor.h"
-#include "FlangerPlugin/PluginProcessor.h"
+#include "PluginEditor.h"
+#include "PluginProcessor.h"
 
-namespace audio_plugin {
 AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor(
-    AudioPluginAudioProcessor& p)
+    AudioPluginAudioProcessor &p)
     : AudioProcessorEditor(&p), processorRef(p) {
   juce::ignoreUnused(processorRef);
   // Make sure that before the constructor has finished, you've set the
@@ -13,7 +12,7 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor(
 
 AudioPluginAudioProcessorEditor::~AudioPluginAudioProcessorEditor() {}
 
-void AudioPluginAudioProcessorEditor::paint(juce::Graphics& g) {
+void AudioPluginAudioProcessorEditor::paint(juce::Graphics &g) {
   // (Our component is opaque, so we must completely fill the background with a
   // solid colour)
   g.fillAll(
@@ -29,4 +28,5 @@ void AudioPluginAudioProcessorEditor::resized() {
   // This is generally where you'll want to lay out the positions of any
   // subcomponents in your editor..
 }
-}  // namespace audio_plugin
+
+void AudioPluginAudioProcessorEditor::initGUI() {}
