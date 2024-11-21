@@ -14,10 +14,6 @@ Params::createParameterLayout() {
       ParamRange::delayDefault));
 
   params.push_back(std::make_unique<juce::AudioParameterFloat>(
-      ParamIDs::depth, "Depth", ParamRange::depthStart, ParamRange::depthEnd,
-      ParamRange::depthDefault));
-
-  params.push_back(std::make_unique<juce::AudioParameterFloat>(
       ParamIDs::feedback, "Feedback",
       juce::NormalisableRange(ParamRange::feedbackStart,
                               ParamRange::feedbackEnd),

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "dsp/Flanger.h"
+
 #include <juce_audio_processors/juce_audio_processors.h>
 
 class AudioPluginAudioProcessor : public juce::AudioProcessor {
@@ -37,6 +38,7 @@ public:
 
   juce::AudioProcessorValueTreeState parameters;
 private:
-  Flanger flanger;
+  juce::dsp::Flanger flanger;
+  // juce::dsp::Chorus<float> chorus;
   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(AudioPluginAudioProcessor)
 };

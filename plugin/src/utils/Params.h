@@ -4,7 +4,6 @@
 
 namespace ParamIDs {
 constexpr auto delay = "delay";
-constexpr auto depth = "depth";
 constexpr auto feedback = "feedback";
 constexpr auto invertPolarity = "invertPolarity";
 constexpr auto lfoFreq = "lfoFreq";
@@ -16,15 +15,10 @@ constexpr auto gain = "gain";
 } // namespace ParamIDs
 
 namespace ParamRange {
-constexpr float delayStart = 0.0f;
+constexpr float delayStart = 0.01f;
 constexpr float delayEnd = 20.0f;
 constexpr float delayInterval = 0.1f;
 constexpr float delayDefault = 5.0f;
-
-constexpr float depthStart = 0.0f;
-constexpr float depthEnd = 20.0f;
-constexpr float depthInterval = 0.1f;
-constexpr float depthDefault = 5.0f;
 
 constexpr float feedbackStart = 0.f;
 constexpr float feedbackEnd = 1.f;

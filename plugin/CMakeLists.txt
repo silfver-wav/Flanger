@@ -19,19 +19,6 @@ set(SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
 file(GLOB_RECURSE SOURCE_FILES "${SOURCE_DIR}/*.cpp" "${SOURCE_DIR}/*.h")
 target_sources(FlangerPlugin PRIVATE ${SOURCE_FILES})
 
-#target_sources(${PROJECT_NAME}
-#    PRIVATE
-#        source/PluginEditor.cpp
-#        source/PluginProcessor.cpp
-#        ${INCLUDE_DIR}/PluginEditor.h
-#        ${INCLUDE_DIR}/PluginProcessor.h
-#)
-
-#target_include_directories(${PROJECT_NAME}
-#    PUBLIC
-#        ${CMAKE_CURRENT_SOURCE_DIR}/include
-#)
-
 target_link_libraries(${PROJECT_NAME}
     PRIVATE
         juce::juce_audio_utils
@@ -50,7 +37,7 @@ target_compile_definitions(${PROJECT_NAME}
 )
 
 if (MSVC)
-    target_compile_options(${PROJECT_NAME} PRIVATE /W4 /WX)
+    target_compile_options(${PROJECT_NAME} PRIVATE /W4)
 else()
     target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -Wpedantic)
 endif()

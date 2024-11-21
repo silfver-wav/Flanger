@@ -1,36 +1,42 @@
 #pragma once
 
 #include "../utils/Params.h"
-#include "LFO.h"
+// #include "LFO.h"
 
 #include <juce_audio_basics/juce_audio_basics.h>
 #include <juce_core/juce_core.h>
 #include <juce_dsp/juce_dsp.h>
 
+namespace juce::dsp {
 class Flanger : public juce::AudioProcessorValueTreeState::Listener {
 public:
   Flanger(juce::AudioProcessorValueTreeState &params);
   ~Flanger();
   void prepare(juce::dsp::ProcessSpec &spec);
-  void process(juce::AudioBuffer<float> &buffer);
+  void process(const ProcessContextReplacing<float>& context);
+  void reset();
+  void update();
 
 private:
-  juce::AudioProcessorValueTreeState &parameters;
+  AudioProcessorValueTreeState &parameters;
+  Oscillator<float> osc;
+  DelayLine<float, DelayLineInterpolationTypes::Linear> delay;
+  SmoothedValue<float, ValueSmoothingTypes::Linear> oscVolume;
+  DryWetMixer<float> dryWet;
+  std::vector<float> feedback { 2 };
+  AudioBuffer<float> bufferDelayTimes;
 
-  LFO lfo;
+  void updateDelayValues(size_t numSamples);
 
-  juce::AudioBuffer<float> drySignal;
-  std::vector<float> feedback;
-
+  double sampleRate = 44100.0;
   int numChannels = 0;
-  float sampleRate = 44100.f;
-  float minFreq = 20.f;
-  float maxFreq = 20000.0f;
-  float baseDelay = 2.f;
 
-  void processBufferThroughCombFilter(juce::AudioBuffer<float> &buffer,
-                                      int channel);
-  void processMix(juce::AudioBuffer<float> &buffer);
+  float minFreq = 20.f, maxFreq = 20000.0f, baseDelay = 2.f, maxDelayTime = 0.02f, lfoDepth = 1.0f;
+
+  static constexpr float maxDepth               = 1.0,
+                            maxCentreDelayMs       = 100.0,
+                            oscVolumeMultiplier    = 0.5,
+                            maximumDelayModulation = 20.0;
 
   void parameterChanged(const juce::String &parameterID, float newValue);
 
@@ -38,11 +44,7 @@ private:
     return *parameters.getRawParameterValue(ParamIDs::delay);
   }
 
-  [[nodiscard]] float getDepth() const {
-    return *parameters.getRawParameterValue(ParamIDs::depth);
-  }
-
-  [[nodiscard]] float getFeedback() const {
+  [[nodiscard]] float getFeedback() const {  // testa utan smootedvalue sen
     return *parameters.getRawParameterValue(ParamIDs::feedback);
   }
 
@@ -75,3 +77,4 @@ private:
     return juce::Decibels::decibelsToGain(gainDB);
   }
 };
+}
