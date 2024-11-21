@@ -22,6 +22,9 @@ Params::createParameterLayout() {
   params.push_back(std::make_unique<juce::AudioParameterBool>(
       ParamIDs::invertPolarity, "Invert Polarity", false));
 
+    params.push_back(std::make_unique<juce::AudioParameterBool>(
+        ParamIDs::invertWet, "Invert Wet", false));
+
   params.push_back(std::make_unique<juce::AudioParameterFloat>(
       ParamIDs::lfoFreq, "LFO Frequency",
       juce::NormalisableRange(ParamRange::lfoFreqStart, ParamRange::lfoFreqEnd,

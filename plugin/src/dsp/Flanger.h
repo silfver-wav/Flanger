@@ -21,7 +21,6 @@ private:
   AudioProcessorValueTreeState &parameters;
   Oscillator<float> osc;
   DelayLine<float, DelayLineInterpolationTypes::Linear> delay;
-  SmoothedValue<float, ValueSmoothingTypes::Linear> oscVolume;
   DryWetMixer<float> dryWet;
   std::vector<float> feedback { 2 };
   AudioBuffer<float> bufferDelayTimes;
@@ -50,6 +49,10 @@ private:
 
   [[nodiscard]] bool getInvertPolarity() const {
     return *parameters.getRawParameterValue(ParamIDs::invertPolarity);
+  }
+
+  [[nodiscard]] bool getInvertWet() const {
+    return *parameters.getRawParameterValue(ParamIDs::invertWet);
   }
 
   [[nodiscard]] bool getBypass() const {

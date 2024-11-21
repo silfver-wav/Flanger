@@ -56,7 +56,7 @@ void Flanger::reset() {
 
 void Flanger::update() {
   osc.setFrequency (getLFOFreq());
-  dryWet.setWetMixProportion (getMix());
+  dryWet.setWetMixProportion (getMix() / 2.0f);
 }
 
 void Flanger::process(const ProcessContextReplacing<float>& context) {
@@ -70,7 +70,6 @@ void Flanger::process(const ProcessContextReplacing<float>& context) {
     jassert(inputBlock.getNumSamples() == numSamples);
 
     if (context.isBypassed) {
-        outputBlock.copyFrom(inputBlock);
         return;
     }
 
@@ -82,22 +81,23 @@ void Flanger::process(const ProcessContextReplacing<float>& context) {
         float phaseOffset = (channel == 1) ? juce::MathConstants<float>::halfPi * getAmountOfStereo() : 0.0f;
 
         for (size_t i = 0; i < numSamples; ++i) {
-          // Hämta indata för detta sample
           auto input = inputSamples[i];
 
           float lfoValue = osc.processSample(0.f + phaseOffset);
-
           float delayCalc = (float) (getDelay() + lfoValue * lfoDepth)  / 1000.0f * sampleRate ;
           delay.setDelay(delayCalc);
 
-          // Apply feedback to the input
           auto feedbackSign = getInvertPolarity() ? -1 : 1;
           float inputWithFeedback = input + feedbackSign * feedback[channel];
           delay.pushSample((int) channel, inputWithFeedback);
-          outputSamples[i] = delay.popSample((int) channel);
+          auto wetSignal = delay.popSample((int)channel);
 
-          // Update feedback
-          feedback[channel] = outputSamples[i] * getFeedback();
+          if (getInvertWet()) {
+            wetSignal = -wetSignal;
+          }
+
+          outputSamples[i] = wetSignal;
+          feedback[channel] = wetSignal * getFeedback();
         }
     }
 
