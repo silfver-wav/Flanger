@@ -22,8 +22,8 @@ Params::createParameterLayout() {
   params.push_back(std::make_unique<juce::AudioParameterBool>(
       ParamIDs::invertPolarity, "Invert Polarity", false));
 
-    params.push_back(std::make_unique<juce::AudioParameterBool>(
-        ParamIDs::invertWet, "Invert Wet", false));
+  params.push_back(std::make_unique<juce::AudioParameterBool>(
+      ParamIDs::invertWet, "Invert Wet", false));
 
   params.push_back(std::make_unique<juce::AudioParameterFloat>(
       ParamIDs::lfoFreq, "LFO Frequency",
@@ -31,12 +31,25 @@ Params::createParameterLayout() {
                               ParamRange::lfoFreqInterval),
       ParamRange::lfoFreqDefault));
 
+  params.push_back(std::make_unique<juce::AudioParameterChoice>(
+      ParamIDs::lfoSyncMode, "LFO Sync Mode",
+      juce::StringArray{"Frequency", "Tempo-Synced"}, 0));
+
+    params.push_back(std::make_unique<juce::AudioParameterChoice>(
+        ParamIDs::lfoRate,
+        "LFO Rate",
+        ParamRange::lfoRates,
+        2));
+
   params.push_back(std::make_unique<juce::AudioParameterFloat>(
       ParamIDs::lfoDepth, "LFO Depth",
       juce::NormalisableRange(ParamRange::lfoDepthStart,
                               ParamRange::lfoDepthEnd,
                               ParamRange::lfoDepthInterval),
       ParamRange::lfoDepthDefault));
+
+  params.push_back(std::make_unique<juce::AudioParameterChoice>(
+      ParamIDs::waveForm, "LFO Wave Form", ParamRange::waveformChoices, 0));
 
   params.push_back(std::make_unique<juce::AudioParameterFloat>(
       ParamIDs::stereo, "Stereo",
@@ -55,8 +68,7 @@ Params::createParameterLayout() {
       ParamIDs::gain, "Gain",
       NormalisableRange<float>(ParamRange::gainStart, ParamRange::gainEnd,
                                ParamRange::gainInterval),
-      ParamRange::gainDefault
-      ));
+      ParamRange::gainDefault));
 
   params.push_back(std::make_unique<juce::AudioParameterBool>(ParamIDs::bypass,
                                                               "Bypass", false));

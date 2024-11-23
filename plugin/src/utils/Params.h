@@ -1,14 +1,16 @@
 #pragma once
 #include <juce_audio_processors/juce_audio_processors.h>
 
-
 namespace ParamIDs {
 constexpr auto delay = "delay";
 constexpr auto feedback = "feedback";
 constexpr auto invertPolarity = "invertPolarity";
 constexpr auto invertWet = "invertWet";
 constexpr auto lfoFreq = "lfoFreq";
+constexpr auto lfoSyncMode = "lfoSyncMode";
+constexpr auto lfoRate = "lfoRate";
 constexpr auto lfoDepth = "lfoDepth";
+constexpr auto waveForm = "waveForm";
 constexpr auto stereo = "stereo";
 constexpr auto bypass = "bypass";
 constexpr auto mix = "mix";
@@ -35,10 +37,16 @@ constexpr float lfoFreqEnd = 1.50f;
 constexpr float lfoFreqInterval = 0.01f;
 constexpr float lfoFreqDefault = 0.01f;
 
+const juce::StringArray lfoRates = {"1/1",  "1/2",   "1/4",  "1/4.",
+                                    "1/4T", "1/8",   "1/8.", "1/8T",
+                                    "1/16", "1/16.", "1/16T"};
+
 constexpr float lfoDepthStart = 0.f;
 constexpr float lfoDepthEnd = 1.f;
 constexpr float lfoDepthInterval = 0.01f;
 constexpr float lfoDepthDefault = 0.5f;
+
+const juce::StringArray waveformChoices = {"Sine", "Triangle", "Square", "Saw"};
 
 constexpr float stereoStart = 0.f;
 constexpr float stereoEnd = 1.f;
@@ -56,8 +64,8 @@ constexpr float gainInterval = 0.1f;
 constexpr float gainDefault = 0.0f;
 } // namespace ParamRange
 
-
 class Params {
 public:
-  static juce::AudioProcessorValueTreeState::ParameterLayout createParameterLayout();
+  static juce::AudioProcessorValueTreeState::ParameterLayout
+  createParameterLayout();
 };

@@ -122,14 +122,18 @@ void AudioPluginAudioProcessor::processBlock(juce::AudioBuffer<float> &buffer,
   for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
     buffer.clear(i, 0, buffer.getNumSamples());
 
-  /*
-  juce::dsp::AudioBlock<float> audioBlock(buffer);
-  juce::dsp::ProcessContextReplacing<float> context(audioBlock);
-  flanger.process(context);
-  */
+  if (auto* playHead = getPlayHead()) {
+    auto position = playHead->getPosition();
+    if (position->getBpm().hasValue())
+      flanger.setBPM(*position->getBpm());
+  }
 
   juce::dsp::AudioBlock<float> sampleBlock (buffer);
   flanger.process (juce::dsp::ProcessContextReplacing<float> (sampleBlock));
+
+  float gainDB = *parameters.getRawParameterValue(ParamIDs::gain);
+  float gain = juce::Decibels::decibelsToGain(gainDB);
+  buffer.applyGain(gain);
 }
 
 bool AudioPluginAudioProcessor::hasEditor() const {

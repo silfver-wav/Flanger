@@ -16,8 +16,10 @@ public:
   void process(const ProcessContextReplacing<float>& context);
   void reset();
   void update();
-
+  void setBPM(double bpm);
 private:
+  float getNoteDurations(int choice) const;
+
   AudioProcessorValueTreeState &parameters;
   Oscillator<float> osc;
   DelayLine<float, DelayLineInterpolationTypes::Linear> delay;
@@ -29,6 +31,7 @@ private:
 
   double sampleRate = 44100.0;
   int numChannels = 0;
+  double BPM = 0;
 
   float minFreq = 20.f, maxFreq = 20000.0f, baseDelay = 2.f, maxDelayTime = 0.02f, lfoDepth = 1.0f;
 
@@ -63,8 +66,20 @@ private:
     return *parameters.getRawParameterValue(ParamIDs::lfoFreq);
   }
 
+  [[nodiscard]] int getLFOSyncRate() const {
+    return static_cast<int>(*parameters.getRawParameterValue(ParamIDs::lfoRate));
+  }
+
+  [[nodiscard]] int getLFOSyncMode() const {
+    return static_cast<int>(*parameters.getRawParameterValue(ParamIDs::lfoSyncMode));
+  }
+
   [[nodiscard]] float getLFODepth() const {
     return *parameters.getRawParameterValue(ParamIDs::lfoDepth);
+  }
+
+  [[nodiscard]] int getWaveForm() const {
+    return static_cast<int>(*parameters.getRawParameterValue(ParamIDs::waveForm));
   }
 
   [[nodiscard]] float getAmountOfStereo() const {
