@@ -4,7 +4,7 @@ namespace juce::dsp {
 Flanger::Flanger(juce::AudioProcessorValueTreeState &params)
     : parameters(params) {
   parameters.addParameterListener(ParamIDs::lfoFreq, this);
-  parameters.addParameterListener(ParamIDs::lfoDepth, this);
+  parameters.addParameterListener(ParamIDs::lfoRate, this);
   parameters.addParameterListener(ParamIDs::mix, this);
   parameters.addParameterListener(ParamIDs::waveForm, this);
   dryWet.setMixingRule(DryWetMixingRule::linear);
@@ -12,8 +12,9 @@ Flanger::Flanger(juce::AudioProcessorValueTreeState &params)
 
 Flanger::~Flanger() {
   parameters.removeParameterListener(ParamIDs::lfoFreq, this);
-  parameters.removeParameterListener(ParamIDs::lfoDepth, this);
+  parameters.removeParameterListener(ParamIDs::lfoRate, this);
   parameters.removeParameterListener(ParamIDs::mix, this);
+  parameters.removeParameterListener(ParamIDs::waveForm, this);
 }
 
 void Flanger::prepare(ProcessSpec &spec) {
@@ -25,7 +26,7 @@ void Flanger::prepare(ProcessSpec &spec) {
 
   // TODO: fixa maxPossibleDelay
   const auto maxPossibleDelay =
-      std::ceil((maximumDelayModulation * maxDepth * oscVolumeMultiplier +
+      std::ceil((maximumDelayModulation * maxDepth +
                  maxCentreDelayMs) *
                 sampleRate / 1000.0);
   delay = DelayLine<float, DelayLineInterpolationTypes::Linear>{
@@ -38,7 +39,9 @@ void Flanger::prepare(ProcessSpec &spec) {
   osc.prepare(spec);
   bufferDelayTimes.setSize(1, (int)spec.maximumBlockSize, false, false, true);
 
-  update();
+  updateFreq();
+  updateOsc();
+  updateDryWet();
   reset();
 }
 
@@ -50,7 +53,79 @@ void Flanger::reset() {
   dryWet.reset();
 }
 
-void Flanger::update() {
+void Flanger::process(const ProcessContextReplacing<float> &context) {
+  const auto &inputBlock = context.getInputBlock();
+  auto &outputBlock = context.getOutputBlock();
+  const auto numChannels = outputBlock.getNumChannels();
+  const auto numSamples = outputBlock.getNumSamples();
+
+  jassert(inputBlock.getNumChannels() == numChannels);
+  jassert(inputBlock.getNumChannels() == feedback.size());
+  jassert(inputBlock.getNumSamples() == numSamples);
+
+  if (getBypass()) {
+    return;
+  }
+
+  dryWet.pushDrySamples(inputBlock);
+
+  for (size_t channel = 0; channel < numChannels; ++channel) {
+    auto *inputSamples = inputBlock.getChannelPointer(channel);
+    auto *outputSamples = outputBlock.getChannelPointer(channel);
+    float phaseOffset = (channel == 1) ? juce::MathConstants<float>::halfPi *
+                                             getAmountOfStereo()
+                                       : 0.0f;
+
+    for (size_t i = 0; i < numSamples; ++i) {
+      auto input = inputSamples[i];
+
+      float lfoValue = osc.processSample(0.f + phaseOffset);
+      float delayCalc =
+          (float)(getDelay() + lfoValue * getLFODepth()) / 1000.0f * sampleRate;
+      delay.setDelay(delayCalc);
+
+      auto feedbackSign = getInvertPolarity() ? -1 : 1;
+      float inputWithFeedback = input + feedbackSign * feedback[channel];
+      delay.pushSample((int)channel, inputWithFeedback);
+      auto wetSignal = delay.popSample((int)channel);
+
+      if (getInvertWet()) {
+        wetSignal = -wetSignal;
+      }
+
+      outputSamples[i] = wetSignal;
+      feedback[channel] = wetSignal * getFeedback();
+    }
+  }
+
+  dryWet.mixWetSamples(outputBlock);
+}
+
+void Flanger::setBPM(double bpm) {
+  if (std::abs(bpm - BPM) > 0.01f) {
+    BPM = bpm;
+    updateFreq();
+  }
+}
+
+//==============================================================================
+
+void Flanger::parameterChanged(const juce::String &parameterID,
+                               float newValue) {
+  if (parameterID == ParamIDs::lfoFreq || parameterID == ParamIDs::lfoRate) {
+    updateFreq();
+  } else if (parameterID == ParamIDs::mix) {
+    updateDryWet();
+  } else if (parameterID == ParamIDs::waveForm) {
+    updateOsc();
+  }
+}
+
+void Flanger::updateDryWet() {
+  dryWet.setWetMixProportion(getMix() / 2.0f);
+}
+
+void Flanger::updateOsc() {
   std::function<float(float)> oscFunction;
   switch (getWaveForm()) {
   case 0:
@@ -59,7 +134,7 @@ void Flanger::update() {
   case 1:
     oscFunction = [](float x) {
       return (2 / MathConstants<float>::pi) * std::asin(std::sin(x));
-    };
+  };
     break;
   case 2:
     oscFunction = [](float x) { return x < 0.0f ? -1.0f : 1.0f; };
@@ -73,7 +148,9 @@ void Flanger::update() {
   }
 
   osc.initialise(oscFunction);
+}
 
+void Flanger::updateFreq() {
   float freq;
   switch (getLFOSyncMode()) {
   case 0:
@@ -86,9 +163,8 @@ void Flanger::update() {
     freq = getLFOFreq();
     break;
   }
-  osc.setFrequency(freq);
 
-  dryWet.setWetMixProportion(getMix() / 2.0f);
+  osc.setFrequency(freq);
 }
 
 float Flanger::getNoteDurations(const int choice) const {
@@ -135,70 +211,6 @@ float Flanger::getNoteDurations(const int choice) const {
   }
 
   return static_cast<float>(freq);
-}
-
-void Flanger::process(const ProcessContextReplacing<float> &context) {
-  const auto &inputBlock = context.getInputBlock();
-  auto &outputBlock = context.getOutputBlock();
-  const auto numChannels = outputBlock.getNumChannels();
-  const auto numSamples = outputBlock.getNumSamples();
-
-  jassert(inputBlock.getNumChannels() == numChannels);
-  jassert(inputBlock.getNumChannels() == feedback.size());
-  jassert(inputBlock.getNumSamples() == numSamples);
-
-  if (getBypass()) {
-    return;
-  }
-
-  dryWet.pushDrySamples(inputBlock);
-
-  for (size_t channel = 0; channel < numChannels; ++channel) {
-    auto *inputSamples = inputBlock.getChannelPointer(channel);
-    auto *outputSamples = outputBlock.getChannelPointer(channel);
-    float phaseOffset = (channel == 1) ? juce::MathConstants<float>::halfPi *
-                                             getAmountOfStereo()
-                                       : 0.0f;
-
-    for (size_t i = 0; i < numSamples; ++i) {
-      auto input = inputSamples[i];
-
-      float lfoValue = osc.processSample(0.f + phaseOffset);
-      float delayCalc =
-          (float)(getDelay() + lfoValue * lfoDepth) / 1000.0f * sampleRate;
-      delay.setDelay(delayCalc);
-
-      auto feedbackSign = getInvertPolarity() ? -1 : 1;
-      float inputWithFeedback = input + feedbackSign * feedback[channel];
-      delay.pushSample((int)channel, inputWithFeedback);
-      auto wetSignal = delay.popSample((int)channel);
-
-      if (getInvertWet()) {
-        wetSignal = -wetSignal;
-      }
-
-      outputSamples[i] = wetSignal;
-      feedback[channel] = wetSignal * getFeedback();
-    }
-  }
-
-  dryWet.mixWetSamples(outputBlock);
-}
-
-void Flanger::setBPM(double bpm) {
-  if (std::abs(bpm - BPM) > 0.01f) {
-    BPM = bpm;
-    update();
-  }
-}
-
-void Flanger::updateDelayValues(size_t numSamples) {}
-
-//==============================================================================
-
-void Flanger::parameterChanged(const juce::String &parameterID,
-                               float newValue) {
-  update();
 }
 
 } // namespace juce::dsp

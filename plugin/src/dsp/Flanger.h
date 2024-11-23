@@ -15,7 +15,6 @@ public:
   void prepare(juce::dsp::ProcessSpec &spec);
   void process(const ProcessContextReplacing<float>& context);
   void reset();
-  void update();
   void setBPM(double bpm);
 private:
   float getNoteDurations(int choice) const;
@@ -27,20 +26,20 @@ private:
   std::vector<float> feedback { 2 };
   AudioBuffer<float> bufferDelayTimes;
 
-  void updateDelayValues(size_t numSamples);
-
   double sampleRate = 44100.0;
   int numChannels = 0;
   double BPM = 0;
 
-  float minFreq = 20.f, maxFreq = 20000.0f, baseDelay = 2.f, maxDelayTime = 0.02f, lfoDepth = 1.0f;
+  float maxDelayTime = 0.02f, lfoDepth = 1.0f;
 
   static constexpr float maxDepth               = 1.0,
                             maxCentreDelayMs       = 100.0,
-                            oscVolumeMultiplier    = 0.5,
                             maximumDelayModulation = 20.0;
 
   void parameterChanged(const juce::String &parameterID, float newValue);
+  void updateOsc();
+  void updateFreq();
+  void updateDryWet();
 
   [[nodiscard]] float getDelay() const {
     return *parameters.getRawParameterValue(ParamIDs::delay);
