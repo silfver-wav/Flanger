@@ -5,6 +5,7 @@ Flanger::Flanger(juce::AudioProcessorValueTreeState &params)
     : parameters(params) {
   parameters.addParameterListener(ParamIDs::lfoFreq, this);
   parameters.addParameterListener(ParamIDs::lfoRate, this);
+  parameters.addParameterListener(ParamIDs::lfoSyncMode, this);
   parameters.addParameterListener(ParamIDs::mix, this);
   parameters.addParameterListener(ParamIDs::waveForm, this);
   dryWet.setMixingRule(DryWetMixingRule::linear);
@@ -13,6 +14,7 @@ Flanger::Flanger(juce::AudioProcessorValueTreeState &params)
 Flanger::~Flanger() {
   parameters.removeParameterListener(ParamIDs::lfoFreq, this);
   parameters.removeParameterListener(ParamIDs::lfoRate, this);
+  parameters.removeParameterListener(ParamIDs::lfoSyncMode, this);
   parameters.removeParameterListener(ParamIDs::mix, this);
   parameters.removeParameterListener(ParamIDs::waveForm, this);
 }
@@ -26,8 +28,7 @@ void Flanger::prepare(ProcessSpec &spec) {
 
   // TODO: fixa maxPossibleDelay
   const auto maxPossibleDelay =
-      std::ceil((maximumDelayModulation * maxDepth +
-                 maxCentreDelayMs) *
+      std::ceil((maximumDelayModulation * maxDepth + maxCentreDelayMs) *
                 sampleRate / 1000.0);
   delay = DelayLine<float, DelayLineInterpolationTypes::Linear>{
       static_cast<int>(maxPossibleDelay)};
@@ -112,7 +113,8 @@ void Flanger::setBPM(double bpm) {
 
 void Flanger::parameterChanged(const juce::String &parameterID,
                                float newValue) {
-  if (parameterID == ParamIDs::lfoFreq || parameterID == ParamIDs::lfoRate) {
+  if (parameterID == ParamIDs::lfoFreq || parameterID == ParamIDs::lfoRate ||
+      parameterID == ParamIDs::lfoSyncMode) {
     updateFreq();
   } else if (parameterID == ParamIDs::mix) {
     updateDryWet();
@@ -121,9 +123,7 @@ void Flanger::parameterChanged(const juce::String &parameterID,
   }
 }
 
-void Flanger::updateDryWet() {
-  dryWet.setWetMixProportion(getMix() / 2.0f);
-}
+void Flanger::updateDryWet() { dryWet.setWetMixProportion(getMix() / 2.0f); }
 
 void Flanger::updateOsc() {
   std::function<float(float)> oscFunction;
@@ -134,7 +134,7 @@ void Flanger::updateOsc() {
   case 1:
     oscFunction = [](float x) {
       return (2 / MathConstants<float>::pi) * std::asin(std::sin(x));
-  };
+    };
     break;
   case 2:
     oscFunction = [](float x) { return x < 0.0f ? -1.0f : 1.0f; };
@@ -157,7 +157,7 @@ void Flanger::updateFreq() {
     freq = getLFOFreq();
     break;
   case 1:
-    freq = getNoteDurations(getLFOSyncRate());
+    freq = getSubdivisionFreq(getLFOSyncRate());
     break;
   default:
     freq = getLFOFreq();
@@ -167,48 +167,54 @@ void Flanger::updateFreq() {
   osc.setFrequency(freq);
 }
 
-float Flanger::getNoteDurations(const int choice) const {
+float Flanger::getSubdivisionFreq(const int choice) const {
   if (BPM <= 0.0)
     return 0.0f;
 
-  double freq = 0.0;
+  double beatDuration = 60.0 / BPM; // Duration of a quarter note (1/4) in seconds
+
+  // Multiplier for each note subdivision
+  double multiplier = 1.0;
   switch (choice) {
-  case 0: // "1/1" (Whole note)
-    freq = 120.0 / BPM;
+  case 0:  // Whole note (1/1)
+    multiplier = 4.0;
     break;
-  case 1: // Half note (1/2)
-    freq = 120 / BPM;
+  case 1:  // Half note (1/2)
+    multiplier = 2.0;
     break;
-  case 2: // Quarter note (1/4)
-    freq = 60 / BPM;
+  case 2:  // Quarter note (1/4)
+    multiplier = 1.0;
     break;
-  case 3: // Dotted-quarter note (1/4.)
-    freq = 90 / BPM;
+  case 3:  // Dotted-quarter note (1/4.)
+    multiplier = 1.5;
     break;
-  case 4: // Triplet-quarter note (1/4T)
-    freq = 40 / BPM;
+  case 4:  // Triplet-quarter note (1/4T)
+    multiplier = 2.0 / 3.0;
     break;
-  case 5: // Eighth note (1/8)
-    freq = 30 / BPM;
+  case 5:  // Eighth note (1/8)
+    multiplier = 0.5;
     break;
-  case 6: // Dotted-eighth note (1/8.)
-    freq = 45 / BPM;
+  case 6:  // Dotted-eighth note (1/8.)
+    multiplier = 0.75;
     break;
-  case 7: // Triplet-eighth note (1/8T)
-    freq = 20 / BPM;
+  case 7:  // Triplet-eighth note (1/8T)
+    multiplier = 1.0 / 3.0;
     break;
-  case 8: // Sixteenth note (1/16)
-    freq = 15 / BPM;
+  case 8:  // Sixteenth note (1/16)
+    multiplier = 0.25;
     break;
-  case 9: // Dotted-sixteenth note (1/16.)
-    freq = 22.5 / BPM;
+  case 9:  // Dotted-sixteenth note (1/16.)
+    multiplier = 0.375;
     break;
   case 10: // Triplet-sixteenth note (1/16T)
-    freq = 10 / BPM;
+    multiplier = 1.0 / 6.0;
     break;
   default:
-    break;
+    return 0.0f; // Invalid choice
   }
+
+  // Frequency in Hertz (inverted duration)
+  double freq = 1.0 / (beatDuration * multiplier);
 
   return static_cast<float>(freq);
 }

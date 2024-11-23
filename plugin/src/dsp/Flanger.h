@@ -17,8 +17,6 @@ public:
   void reset();
   void setBPM(double bpm);
 private:
-  float getNoteDurations(int choice) const;
-
   AudioProcessorValueTreeState &parameters;
   Oscillator<float> osc;
   DelayLine<float, DelayLineInterpolationTypes::Linear> delay;
@@ -39,6 +37,7 @@ private:
   void parameterChanged(const juce::String &parameterID, float newValue);
   void updateOsc();
   void updateFreq();
+  float getSubdivisionFreq(int choice) const;
   void updateDryWet();
 
   [[nodiscard]] float getDelay() const {
