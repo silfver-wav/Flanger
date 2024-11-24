@@ -64,10 +64,6 @@ void Flanger::process(const ProcessContextReplacing<float> &context) {
   jassert(inputBlock.getNumChannels() == feedback.size());
   jassert(inputBlock.getNumSamples() == numSamples);
 
-  if (getBypass()) {
-    return;
-  }
-
   dryWet.pushDrySamples(inputBlock);
 
   for (size_t channel = 0; channel < numChannels; ++channel) {
@@ -90,11 +86,7 @@ void Flanger::process(const ProcessContextReplacing<float> &context) {
       delay.pushSample((int)channel, inputWithFeedback);
       auto wetSignal = delay.popSample((int)channel);
 
-      if (getInvertWet()) {
-        wetSignal = -wetSignal;
-      }
-
-      outputSamples[i] = wetSignal;
+      outputSamples[i] = getInvertWet() ? wetSignal : -wetSignal;
       feedback[channel] = wetSignal * getFeedback();
     }
   }

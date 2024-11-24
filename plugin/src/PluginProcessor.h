@@ -1,6 +1,7 @@
 #pragma once
 
 #include "dsp/Flanger.h"
+#include "dsp/TapeSaturation.h"
 
 #include <juce_audio_processors/juce_audio_processors.h>
 
@@ -39,6 +40,6 @@ public:
   juce::AudioProcessorValueTreeState parameters;
 private:
   juce::dsp::Flanger flanger;
-  // juce::dsp::Chorus<float> chorus;
+  juce::dsp::TapeSaturation tapeSaturation;
   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(AudioPluginAudioProcessor)
 };

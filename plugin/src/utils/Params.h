@@ -14,6 +14,7 @@ constexpr auto waveForm = "waveForm";
 constexpr auto stereo = "stereo";
 constexpr auto bypass = "bypass";
 constexpr auto mix = "mix";
+constexpr auto saturation = "saturation";
 constexpr auto gain = "gain";
 } // namespace ParamIDs
 
@@ -57,6 +58,11 @@ constexpr float mixStart = 0.f;
 constexpr float mixEnd = 1.f;
 constexpr float mixInterval = 0.01f;
 constexpr float mixDefault = 8.f;
+
+constexpr float saturationStart = 0.f;
+constexpr float saturationEnd = 1.f;
+constexpr float saturationInterval = 0.01f;
+constexpr float saturationDefault = 0.f;
 
 constexpr float gainStart = -12.0f;
 constexpr float gainEnd = 12.0f;

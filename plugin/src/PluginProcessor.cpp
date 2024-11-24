@@ -13,7 +13,8 @@ AudioPluginAudioProcessor::AudioPluginAudioProcessor()
 #endif
               ),
        parameters(*this, nullptr, "PARAMETERS", Params::createParameterLayout()),
-      flanger(parameters)
+      flanger(parameters),
+      tapeSaturation(parameters)
 {
 }
 AudioPluginAudioProcessor::~AudioPluginAudioProcessor() {}
@@ -79,7 +80,7 @@ void AudioPluginAudioProcessor::prepareToPlay(double sampleRate,
   spec.sampleRate = sampleRate;
   // Prepare Flanger
   flanger.prepare(spec);
-  //chorus.prepare(spec);
+  tapeSaturation.prepare(spec);
 }
 
 void AudioPluginAudioProcessor::releaseResources() {
@@ -128,8 +129,13 @@ void AudioPluginAudioProcessor::processBlock(juce::AudioBuffer<float> &buffer,
       flanger.setBPM(*position->getBpm());
   }
 
+  if (*parameters.getRawParameterValue(ParamIDs::bypass)) {
+    return;
+  }
   juce::dsp::AudioBlock<float> sampleBlock (buffer);
-  flanger.process (juce::dsp::ProcessContextReplacing<float> (sampleBlock));
+  auto context = juce::dsp::ProcessContextReplacing<float> (sampleBlock);
+  flanger.process (context);
+  tapeSaturation.process (context);
 
   float gainDB = *parameters.getRawParameterValue(ParamIDs::gain);
   float gain = juce::Decibels::decibelsToGain(gainDB);

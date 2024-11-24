@@ -64,6 +64,12 @@ Params::createParameterLayout() {
                               ParamRange::mixInterval),
       ParamRange::mixDefault));
 
+    params.push_back(std::make_unique<juce::AudioParameterFloat>(
+        ParamIDs::saturation, "Saturation",
+        juce::NormalisableRange(ParamRange::saturationStart, ParamRange::saturationEnd,
+                                ParamRange::saturationInterval),
+        ParamRange::saturationDefault));
+
   params.push_back(std::make_unique<AudioParameterFloat>(
       ParamIDs::gain, "Gain",
       NormalisableRange<float>(ParamRange::gainStart, ParamRange::gainEnd,
