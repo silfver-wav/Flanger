@@ -4,29 +4,39 @@
 AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor(
     AudioPluginAudioProcessor &p)
     : AudioProcessorEditor(&p), processorRef(p) {
-  juce::ignoreUnused(processorRef);
-  // Make sure that before the constructor has finished, you've set the
-  // editor's size to whatever you need it to be.
-  setSize(400, 300);
+
+  processorRef.gainMeter.setImagesCount(46);
+  processorRef.gainMeter.setImagesBounds(128);
+  processorRef.gainMeter.setRelease(.5f);
+
+  processorRef.gainMeter.setImages(
+      3, 3, 1, 2056, 256.f, 24.f, .3f, 1.f, 3.f, 1.f,
+      juce::Colours::blue.withAlpha(.1f), juce::Colours::white.withAlpha(.5f),
+      juce::Colours::transparentBlack, juce::Colours::blue.withAlpha(0.5f));
+
+  auto x = 1.f;
+  auto y = .7f;
+  auto scale = 800.f;
+  setSize(int(x * scale), int(y * scale));
+  auto fps = 24.f;
+  startTimer(int(1000.f / fps));
 }
 
 AudioPluginAudioProcessorEditor::~AudioPluginAudioProcessorEditor() {}
 
 void AudioPluginAudioProcessorEditor::paint(juce::Graphics &g) {
-  // (Our component is opaque, so we must completely fill the background with a
-  // solid colour)
-  g.fillAll(
-      getLookAndFeel().findColour(juce::ResizableWindow::backgroundColourId));
-
-  g.setColour(juce::Colours::white);
-  g.setFont(15.0f);
-  g.drawFittedText("Hello World!", getLocalBounds(),
-                   juce::Justification::centred, 1);
+  g.fillAll(juce::Colours::black);
+  g.setImageResamplingQuality(juce::Graphics::mediumResamplingQuality);
+  processorRef.gainMeter.draw(g, getLocalBounds().toFloat());
 }
 
 void AudioPluginAudioProcessorEditor::resized() {
-  // This is generally where you'll want to lay out the positions of any
-  // subcomponents in your editor..
+
 }
 
-void AudioPluginAudioProcessorEditor::initGUI() {}
+void AudioPluginAudioProcessorEditor::timerCallback() {
+  if (processorRef.gainMeter.shouldRepaint())
+    repaint();
+}
+
+

@@ -2,6 +2,7 @@
 
 #include "dsp/Flanger.h"
 #include "dsp/TapeSaturation.h"
+#include "gui/GainMeter.h"
 
 #include <juce_audio_processors/juce_audio_processors.h>
 
@@ -38,6 +39,7 @@ public:
   void setStateInformation(const void *data, int sizeInBytes) override;
 
   juce::AudioProcessorValueTreeState parameters;
+  GainMeterSpirograph gainMeter;
 private:
   juce::dsp::Flanger flanger;
   juce::dsp::TapeSaturation tapeSaturation;
