@@ -5,8 +5,7 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor(
     AudioPluginAudioProcessor &p)
     : AudioProcessorEditor(&p), processorRef(p) {
 
-  processorRef.gainMeter.setImagesCount(46);
-  processorRef.gainMeter.setImagesBounds(128);
+  processorRef.gainMeter.initImages(46, 800);
   processorRef.gainMeter.setRelease(.5f);
 
   processorRef.gainMeter.setImages(
@@ -14,19 +13,18 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor(
       juce::Colours::blue.withAlpha(.1f), juce::Colours::white.withAlpha(.5f),
       juce::Colours::transparentBlack, juce::Colours::blue.withAlpha(0.5f));
 
-  auto x = 1.f;
-  auto y = .7f;
-  auto scale = 800.f;
-  setSize(int(x * scale), int(y * scale));
+  auto width = 800;
+  auto height = 560;
+  setSize(width, height);
   auto fps = 24.f;
-  startTimer(int(1000.f / fps));
+  startTimer(static_cast<int>(1000.f / fps));
 }
 
 AudioPluginAudioProcessorEditor::~AudioPluginAudioProcessorEditor() {}
 
 void AudioPluginAudioProcessorEditor::paint(juce::Graphics &g) {
   g.fillAll(juce::Colours::black);
-  g.setImageResamplingQuality(juce::Graphics::mediumResamplingQuality);
+  g.setImageResamplingQuality(juce::Graphics::lowResamplingQuality);
   processorRef.gainMeter.draw(g, getLocalBounds().toFloat());
 }
 
