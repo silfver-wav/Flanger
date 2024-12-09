@@ -11,14 +11,13 @@
 #include <juce_graphics/juce_graphics.h>
 
 
-class AudioPluginAudioProcessorEditor : public juce::AudioProcessorEditor, public juce::Timer {
+class AudioPluginAudioProcessorEditor : public juce::AudioProcessorEditor {
 public:
   explicit AudioPluginAudioProcessorEditor(AudioPluginAudioProcessor &);
   ~AudioPluginAudioProcessorEditor() override;
 
     void paint(juce::Graphics &) override;
     void resized() override;
-    void timerCallback() override;
 
 private:
   AudioPluginAudioProcessor &processorRef;
