@@ -5,6 +5,14 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor(
     AudioPluginAudioProcessor &p)
     : AudioProcessorEditor(&p), processorRef(p) {
 
+
+  addAndMakeVisible (headerComponent);
+  addAndMakeVisible(footerComponent);
+  addAndMakeVisible(visualComponent);
+  addAndMakeVisible(outputComponent);
+  addAndMakeVisible(delayComponent);
+  addAndMakeVisible(lfoComponent);
+
   processorRef.gainMeter.initImages(46, 800);
   processorRef.gainMeter.setRelease(.5f);
 
@@ -18,6 +26,8 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor(
   setSize(width, height);
   auto fps = 24.f;
   startTimer(static_cast<int>(1000.f / fps));
+
+  // gainSlider("a gain slider", processorRef.parameters.getParameter(ParamIDs::gain));
 }
 
 AudioPluginAudioProcessorEditor::~AudioPluginAudioProcessorEditor() {}
@@ -29,7 +39,18 @@ void AudioPluginAudioProcessorEditor::paint(juce::Graphics &g) {
 }
 
 void AudioPluginAudioProcessorEditor::resized() {
+  auto area = getLocalBounds();
+  auto headerFooterHeight = 36;
+  headerComponent.setBounds (area.removeFromTop    (headerFooterHeight));
+  footerComponent.setBounds (area.removeFromBottom (headerFooterHeight));
 
+  auto sideBarArea = area.removeFromRight (juce::jmax (80, area.getWidth() / 4));
+  outputComponent.setBounds (sideBarArea);
+
+  auto contentItemHeight = 230;
+  visualComponent.setBounds     (area.removeFromTop (contentItemHeight));
+  delayComponent.setBounds (area.removeFromBottom (130));
+  lfoComponent.setBounds (area.removeFromTop (130));
 }
 
 void AudioPluginAudioProcessorEditor::timerCallback() {
