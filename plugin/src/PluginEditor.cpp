@@ -3,8 +3,12 @@
 
 AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor(
     AudioPluginAudioProcessor &p)
-    : AudioProcessorEditor(&p), processorRef(p), visualComponent(p) {
-
+    : AudioProcessorEditor(&p),
+    processorRef(p),
+    visualComponent(p),
+    delayComponent(p.parameters),
+    lfoComponent(p.parameters)
+{
   addAndMakeVisible (headerComponent);
   addAndMakeVisible(footerComponent);
   addAndMakeVisible(visualComponent);

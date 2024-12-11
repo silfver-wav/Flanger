@@ -6,13 +6,9 @@
 class VisualComponent : public juce::Component, public juce::Timer {
 public:
   VisualComponent(AudioPluginAudioProcessor &p) : processorRef(p) {
-    processorRef.gainMeter.initImages(46, 800);
+    processorRef.gainMeter.initImages(46, 400);
     processorRef.gainMeter.setRelease(.5f);
-
-    processorRef.gainMeter.setImages(
-    3, 3, 1, 2056, 256.f, 24.f, .3f, 1.f, 3.f, 1.f,
-    juce::Colours::blue.withAlpha(.1f), juce::Colours::white.withAlpha(.5f),
-    juce::Colours::transparentBlack, juce::Colours::blue.withAlpha(0.5f));
+    processorRef.gainMeter.setImages(opts);
 
     // auto width = 800;
     // auto height = 560;
@@ -35,5 +31,21 @@ public:
 
 private:
   AudioPluginAudioProcessor &processorRef;
+  GainMeterSpirograph::ImageOptions opts = {
+    3,
+    3,
+    1,
+    2056,
+    256.f,
+    24.f,
+    .3f,
+    1.f,
+    3.f,
+    1.f,
+    juce::Colours::blue.withAlpha(.1f),
+    juce::Colours::white.withAlpha(.5f),
+    juce::Colours::transparentBlack,
+    juce::Colours::blue.withAlpha(0.5f),
+  };
   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(VisualComponent)
 };

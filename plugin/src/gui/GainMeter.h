@@ -69,15 +69,17 @@ protected:
 
 class GainMeterSpirograph : public GainMeter {
 public:
-  void setImages(
-      int armsStart, int armsEnd,
-      int edgesStart, int edgesEnd,
-      float twistsStart, float twistEnd,
-      float scaleStart, float scaleEnd,
-      float thicknessStart, float thicknessEnd,
-      juce::Colour spiroColourStart, juce::Colour spiroColourEnd,
-      juce::Colour armsColourStart, juce::Colour armsColourEnd
-      )
+  struct ImageOptions {
+    int armsStart, armsEnd;
+    int edgesStart, edgesEnd;
+    float twistsStart, twistEnd;
+    float scaleStart, scaleEnd;
+    float thicknessStart, thicknessEnd;
+    juce::Colour spiroColourStart, spiroColourEnd;
+    juce::Colour armsColourStart, armsColourEnd;
+  };
+
+  void setImages(const ImageOptions& opts)
   {
     if (m_images.empty()) {
       DBG("Images not initialized!");
@@ -88,13 +90,13 @@ public:
     for (auto i = 0; i < m_images.size(); ++i) {
       m_iRel = float(i) * m_ImagesMaxInv;
 
-      auto arms = int(armsStart + m_iRel * (armsEnd - armsStart));
-      auto edges = int(edgesStart + m_iRel * (edgesEnd - edgesStart));
-      auto twists = twistsStart + m_iRel * (twistEnd - twistsStart);
-      auto scale = scaleStart + m_iRel * (scaleEnd - scaleStart);
-      auto thickness = thicknessStart + m_iRel * (thicknessEnd - thicknessStart);
-      auto spirographColour = spiroColourStart.interpolatedWith(spiroColourEnd, m_iRel);
-      auto armsColour = armsColourStart.interpolatedWith(armsColourEnd, m_iRel);
+      auto arms = int(opts.armsStart + m_iRel * (opts.armsEnd - opts.armsStart));
+      auto edges = int(opts.edgesStart + m_iRel * (opts.edgesEnd - opts.edgesStart));
+      auto twists = opts.twistsStart + m_iRel * (opts.twistEnd - opts.twistsStart);
+      auto scale = opts.scaleStart + m_iRel * (opts.scaleEnd - opts.scaleStart);
+      auto thickness = opts.thicknessStart + m_iRel * (opts.thicknessEnd - opts.thicknessStart);
+      auto spirographColour = opts.spiroColourStart.interpolatedWith(opts.spiroColourEnd, m_iRel);
+      auto armsColour = opts.armsColourStart.interpolatedWith(opts.armsColourEnd, m_iRel);
 
       spirograph.setImage(arms, edges, twists, scale, thickness, 1.f, spirographColour, armsColour);
 

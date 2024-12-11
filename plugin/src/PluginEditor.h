@@ -1,12 +1,12 @@
 #pragma once
 
 #include "PluginProcessor.h"
-#include "gui/DelayComponent.h"
 #include "gui/FooterComponent.h"
 #include "gui/HeaderComponent.h"
 #include "gui/LFOComponent.h"
 #include "gui/OutputComponent.h"
 #include "gui/VisualComponent.h"
+#include "gui/components/DelayComponent.h"
 
 #include <juce_graphics/juce_graphics.h>
 
