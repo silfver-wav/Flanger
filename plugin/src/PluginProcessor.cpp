@@ -140,6 +140,8 @@ void AudioPluginAudioProcessor::processBlock(juce::AudioBuffer<float> &buffer,
   float gainDB = *parameters.getRawParameterValue(ParamIDs::gain);
   float gain = juce::Decibels::decibelsToGain(gainDB);
   buffer.applyGain(gain);
+
+  gainMeter.setBuffer(buffer, 0);
 }
 
 bool AudioPluginAudioProcessor::hasEditor() const {
@@ -147,8 +149,8 @@ bool AudioPluginAudioProcessor::hasEditor() const {
 }
 
 juce::AudioProcessorEditor *AudioPluginAudioProcessor::createEditor() {
-  return new juce::GenericAudioProcessorEditor(*this);
-  // return new AudioPluginAudioProcessorEditor(*this);
+  // return new juce::GenericAudioProcessorEditor(*this);
+  return new AudioPluginAudioProcessorEditor(*this);
 }
 
 void AudioPluginAudioProcessor::getStateInformation(

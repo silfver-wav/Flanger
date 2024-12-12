@@ -1,32 +1,47 @@
 #include "PluginEditor.h"
 #include "PluginProcessor.h"
+#include "utils/Colours.h"
 
 AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor(
     AudioPluginAudioProcessor &p)
-    : AudioProcessorEditor(&p), processorRef(p) {
-  juce::ignoreUnused(processorRef);
-  // Make sure that before the constructor has finished, you've set the
-  // editor's size to whatever you need it to be.
-  setSize(400, 300);
+    : AudioProcessorEditor(&p),
+    processorRef(p),
+    visualComponent(p),
+    delayComponent(p.parameters),
+    lfoComponent(p.parameters),
+    outputComponent(p.parameters)
+{
+  addAndMakeVisible (headerComponent);
+  addAndMakeVisible(visualComponent);
+  addAndMakeVisible(outputComponent);
+  addAndMakeVisible(delayComponent);
+  addAndMakeVisible(lfoComponent);
+
+  setSize(1000, 800);
 }
 
 AudioPluginAudioProcessorEditor::~AudioPluginAudioProcessorEditor() {}
 
 void AudioPluginAudioProcessorEditor::paint(juce::Graphics &g) {
-  // (Our component is opaque, so we must completely fill the background with a
-  // solid colour)
-  g.fillAll(
-      getLookAndFeel().findColour(juce::ResizableWindow::backgroundColourId));
-
-  g.setColour(juce::Colours::white);
-  g.setFont(15.0f);
-  g.drawFittedText("Hello World!", getLocalBounds(),
-                   juce::Justification::centred, 1);
+  g.fillAll(Colours::primaryColour);
 }
 
 void AudioPluginAudioProcessorEditor::resized() {
-  // This is generally where you'll want to lay out the positions of any
-  // subcomponents in your editor..
+  auto area = getLocalBounds();
+
+  auto headerHeight = 36;
+  headerComponent.setBounds(area.removeFromTop(headerHeight));
+
+  auto sideBarArea = area.removeFromRight(juce::jmax(80, area.getWidth() / 4));
+  outputComponent.setBounds(sideBarArea);
+
+  auto remainingHeight = area.getHeight();
+  auto visualHeight = juce::jmin(230, remainingHeight / 2);
+  auto componentHeight = (remainingHeight - visualHeight) / 2;
+
+  visualComponent.setBounds(area.removeFromTop(visualHeight));
+  delayComponent.setBounds(area.removeFromTop(componentHeight));
+  lfoComponent.setBounds(area);
 }
 
-void AudioPluginAudioProcessorEditor::initGUI() {}
+
