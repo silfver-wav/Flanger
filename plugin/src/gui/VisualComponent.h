@@ -1,5 +1,6 @@
 #pragma once
 
+
 #include <juce_core/juce_core.h>
 #include <juce_graphics/juce_graphics.h>
 
@@ -10,9 +11,6 @@ public:
     processorRef.gainMeter.setRelease(.5f);
     processorRef.gainMeter.setImages(opts);
 
-    // auto width = 800;
-    // auto height = 560;
-    // setSize(width, height);
     auto fps = 24.f;
     startTimer(static_cast<int>(1000.f / fps));
   }
@@ -42,10 +40,10 @@ private:
     1.f,
     3.f,
     1.f,
-    juce::Colours::blue.withAlpha(.1f),
+    Colours::secondaryColour.withAlpha(.1f),
     juce::Colours::white.withAlpha(.5f),
     juce::Colours::transparentBlack,
-    juce::Colours::blue.withAlpha(0.5f),
+    Colours::secondaryColour.withAlpha(0.5f),
   };
   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(VisualComponent)
 };

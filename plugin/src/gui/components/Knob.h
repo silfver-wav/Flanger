@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../../utils/Colours.h"
 #include "KnobLookAndFeel.h"
 
 #include <juce_core/juce_core.h>
@@ -24,7 +25,7 @@ public:
 
     slider.setPopupDisplayEnabled(false, false, this);
     slider.setValue(defaultValue);
-    slider.setColour(juce::Slider::ColourIds::trackColourId, juce::Colours::blue);
+    slider.setColour(juce::Slider::ColourIds::trackColourId, Colours::secondaryColour);
     slider.setDoubleClickReturnValue(true, defaultValue);
     addAndMakeVisible(slider);
   }

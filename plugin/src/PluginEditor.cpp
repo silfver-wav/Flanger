@@ -1,5 +1,6 @@
 #include "PluginEditor.h"
 #include "PluginProcessor.h"
+#include "utils/Colours.h"
 
 AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor(
     AudioPluginAudioProcessor &p)
@@ -23,7 +24,7 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor(
 AudioPluginAudioProcessorEditor::~AudioPluginAudioProcessorEditor() {}
 
 void AudioPluginAudioProcessorEditor::paint(juce::Graphics &g) {
-  g.fillAll(juce::Colour::fromRGB(55, 55, 55));
+  g.fillAll(Colours::primaryColour);
 }
 
 void AudioPluginAudioProcessorEditor::resized() {
