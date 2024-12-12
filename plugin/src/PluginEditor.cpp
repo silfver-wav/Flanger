@@ -12,7 +12,6 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor(
     outputComponent(p.parameters)
 {
   addAndMakeVisible (headerComponent);
-  addAndMakeVisible(footerComponent);
   addAndMakeVisible(visualComponent);
   addAndMakeVisible(outputComponent);
   addAndMakeVisible(delayComponent);

@@ -1,9 +1,9 @@
 #pragma once
 
-#include "components/Button.h"
-#include "components/ComboBox.h"
-#include "components/Group.h"
-#include "components/Knob.h"
+#include "../controls/Group.h"
+#include "../controls/Button.h"
+#include "../controls/ComboBox.h"
+#include "../controls/Knob.h"
 
 #include <juce_core/juce_core.h>
 #include <juce_graphics/juce_graphics.h>

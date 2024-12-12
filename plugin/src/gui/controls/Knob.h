@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../../utils/Colours.h"
-#include "KnobLookAndFeel.h"
+#include "lookandfeel/KnobLookAndFeel.h"
 
 #include <juce_core/juce_core.h>
 #include <juce_graphics/juce_graphics.h>

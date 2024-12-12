@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Button.h"
-#include "Group.h"
-#include "Knob.h"
+#include "../controls/Group.h"
+#include "../controls/Button.h"
+#include "../controls/Knob.h"
 
 #include <juce_core/juce_core.h>
 #include <juce_graphics/juce_graphics.h>

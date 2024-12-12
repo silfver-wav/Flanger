@@ -2,7 +2,7 @@
 
 #include "dsp/Flanger.h"
 #include "dsp/TapeSaturation.h"
-#include "gui/GainMeter.h"
+#include "gui/visuals/GainMeter.h"
 
 #include <juce_audio_processors/juce_audio_processors.h>
 

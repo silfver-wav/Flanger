@@ -1,7 +1,7 @@
 #pragma once
 
-#include <juce_core/juce_core.h>
-#include <juce_graphics/juce_graphics.h>
+#include <../../../../libs/juce/modules/juce_core/juce_core.h>
+#include <../../../../libs/juce/modules/juce_graphics/juce_graphics.h>
 
 class HeaderComponent : public juce::Component {
 public:
