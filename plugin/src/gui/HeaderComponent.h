@@ -8,7 +8,7 @@ public:
   HeaderComponent() {}
 
   void paint (juce::Graphics& g) override {
-    g.fillAll (juce::Colours::lightblue);
+    g.fillAll(juce::Colour::fromRGB(45, 35, 35));
   }
 
 private:

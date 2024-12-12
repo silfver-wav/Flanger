@@ -29,20 +29,15 @@ public:
     addAndMakeVisible(slider);
   }
 
-  void paint (juce::Graphics& g) override {
-    g.fillAll (juce::Colours::black);
-  }
-
   void resized() override {
     auto area = getLocalBounds();
     slider.setBounds(area.removeFromTop(area.getHeight() - labelHeight).reduced(5));
     label.setBounds(area);
   }
 
-
   juce::Slider slider;
-  juce::Label label;
 private:
+  juce::Label label;
   int labelWidth = 150, labelHeight = 16;
   int textBoxWidth = 150, textBoxHeight = 14;
   int sliderWidth = 150, sliderHeight = 150;
