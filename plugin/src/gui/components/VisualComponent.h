@@ -1,6 +1,5 @@
 #pragma once
 
-
 #include <../../../../libs/juce/modules/juce_core/juce_core.h>
 #include <../../../../libs/juce/modules/juce_graphics/juce_graphics.h>
 
@@ -18,7 +17,17 @@ public:
   void paint (juce::Graphics& g) override {
     g.fillAll (juce::Colours::black);
     g.setImageResamplingQuality(juce::Graphics::lowResamplingQuality);
-    processorRef.gainMeter.draw(g, getLocalBounds().toFloat());
+
+    auto area = getLocalBounds().toFloat();
+    constexpr float squareSize = 400.0f;
+    auto gainMeterArea = juce::Rectangle<float>(
+        area.getCentreX() - (squareSize / 2.0f),
+        area.getCentreY() - (squareSize / 2.0f),
+        squareSize,
+        squareSize
+    );
+
+    processorRef.gainMeter.draw(g, gainMeterArea);
   }
 
   void timerCallback() override {
@@ -40,10 +49,10 @@ private:
     1.f,
     3.f,
     1.f,
-    Colours::secondaryColour.withAlpha(.1f),
+    juce::Colours::blue.withAlpha(.1f),
     juce::Colours::white.withAlpha(.5f),
     juce::Colours::transparentBlack,
-    Colours::secondaryColour.withAlpha(0.5f),
+    juce::Colours::blue.withAlpha(0.5f),
   };
   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(VisualComponent)
 };
