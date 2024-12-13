@@ -1,43 +1,34 @@
 #pragma once
 
-#include <../../../../libs/juce/modules/juce_core/juce_core.h>
-#include <../../../../libs/juce/modules/juce_graphics/juce_graphics.h>
+#include "../../utils/Params.h"
+#include "../visuals/GainMeter.h"
 
-class VisualComponent : public juce::Component, public juce::Timer {
+#include <juce_core/juce_core.h>
+#include <juce_graphics/juce_graphics.h>
+#include <juce_gui_basics/juce_gui_basics.h>
+
+class VisualComponent :
+  public juce::Component,
+  public juce::Timer
+{
 public:
-  VisualComponent(AudioPluginAudioProcessor &p) : processorRef(p) {
-    processorRef.gainMeter.initImages(46, 400);
-    processorRef.gainMeter.setRelease(.5f);
-    processorRef.gainMeter.setImages(opts);
+  VisualComponent(juce::AudioProcessorValueTreeState &params, GainMeterSpirograph &gm); // AudioPluginAudioProcessor &p);
 
-    auto fps = 24.f;
-    startTimer(static_cast<int>(1000.f / fps));
+  void paint (juce::Graphics& g) override;
+
+  void timerCallback() override;
+
+  float getMix() const {
+    return *parameters.getRawParameterValue(ParamIDs::mix);
   }
 
-  void paint (juce::Graphics& g) override {
-    g.fillAll (juce::Colours::black);
-    g.setImageResamplingQuality(juce::Graphics::lowResamplingQuality);
-
-    auto area = getLocalBounds().toFloat();
-    constexpr float squareSize = 400.0f;
-    auto gainMeterArea = juce::Rectangle<float>(
-        area.getCentreX() - (squareSize / 2.0f),
-        area.getCentreY() - (squareSize / 2.0f),
-        squareSize,
-        squareSize
-    );
-
-    processorRef.gainMeter.draw(g, gainMeterArea);
-  }
-
-  void timerCallback() override {
-    if (processorRef.gainMeter.shouldRepaint())
-      // TODO: change the colour depending on parameter input
-      repaint();
-  }
+  void updateGainMeter();
 
 private:
-  AudioPluginAudioProcessor &processorRef;
+  juce::AudioProcessorValueTreeState &parameters;
+  GainMeterSpirograph &gainMeter;
+  float mixValue;
+
   GainMeterSpirograph::ImageOptions opts = {
     3,
     3,
