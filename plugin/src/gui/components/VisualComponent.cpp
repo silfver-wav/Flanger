@@ -8,7 +8,6 @@ VisualComponent::VisualComponent(juce::AudioProcessorValueTreeState &params, Gai
   gainMeter.initImages(46, 400);
   gainMeter.setRelease(.5f);
   mixValue = getMix();
-  // processorRef.gainMeter.setImages(opts);
   updateGainMeter();
 
   auto fps = 24.f;
@@ -21,7 +20,7 @@ void VisualComponent::paint (juce::Graphics& g) {
 
   auto area = getLocalBounds().toFloat();
   constexpr float squareSize = 400.0f;
-  auto gainMeterArea = juce::Rectangle<float>(
+  const auto gainMeterArea = juce::Rectangle(
       area.getCentreX() - (squareSize / 2.0f),
       area.getCentreY() - (squareSize / 2.0f),
       squareSize,
@@ -44,7 +43,8 @@ void VisualComponent::timerCallback() {
 }
 
 void VisualComponent::updateGainMeter() {
-  opts.spiroColourStart = juce::Colours::blue.withAlpha(mixValue);
-  opts.armsColourEnd = juce::Colours::blue.withAlpha(mixValue / 2.0f);
+  const float alpha = mixValue * .1f;
+  opts.spiroColourStart = juce::Colours::blue.withAlpha(alpha);
+  opts.armsColourEnd = juce::Colours::blue.withAlpha(alpha / 2.0f);
   gainMeter.setImages(opts);
 }
