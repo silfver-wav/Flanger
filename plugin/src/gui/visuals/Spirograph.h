@@ -1,7 +1,7 @@
 #pragma once
 
-#include <../../../../libs/juce/modules/juce_core/juce_core.h>
-#include <../../../../libs/juce/modules/juce_graphics/juce_graphics.h>
+#include <juce_core/juce_core.h>
+#include <juce_graphics/juce_graphics.h>
 #include <vector>
 
 struct Paintings {
