@@ -28,7 +28,6 @@ void AudioPluginAudioProcessorEditor::paint(juce::Graphics &g) {
 
 void AudioPluginAudioProcessorEditor::resized() {
   auto area = getLocalBounds();
-  std::cout << "total area: " + area.toString() + '\n';
 
   auto headerHeight = 36;
   headerComponent.setBounds(area.removeFromTop(headerHeight));

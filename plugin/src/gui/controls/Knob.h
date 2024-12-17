@@ -30,19 +30,15 @@ public:
     addAndMakeVisible(slider);
   }
 
-  void paint(juce::Graphics &g) {
-    g.fillAll(juce::Colours::blanchedalmond);
-  }
-
   void resized() override {
     auto area = getLocalBounds();
 
     int labelX = (area.getWidth() - labelWidth) / 2;
-    int labelY = labelHeight + 10; // Top of the area
+    int labelY = labelHeight + 10;
     label.setBounds(labelX, labelY, labelWidth, labelHeight);
 
     int sliderX = (area.getWidth() - sliderWidth) / 2; // Centered horizontally
-    int sliderY = labelY + labelHeight + 10; // Below the label with padding
+    int sliderY = labelY + labelHeight + 10;
     slider.setBounds(sliderX, sliderY, sliderWidth, sliderHeight);
   }
 

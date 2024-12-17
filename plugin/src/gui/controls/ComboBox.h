@@ -21,15 +21,22 @@ public:
 
   void resized() override {
     auto area = getLocalBounds();
-    int height = area.getHeight() / 2;
-    label.setBounds(area.removeFromTop(height));
-    comboBox.setBounds (10, height, getWidth() - comboBoxWidth, comboBoxHeight);
+
+    int labelX = (area.getWidth() - labelWidth) / 2;
+    int labelY = labelHeight + 10; // Top of the area
+    label.setBounds(labelX, labelY, labelWidth, labelHeight);
+
+    int comboBoxX = (area.getWidth() - comboBoxWidth) / 2; // Centered horizontally
+    int comboBoxY = labelY + labelHeight + padding;
+    comboBox.setBounds (comboBoxX, comboBoxY, comboBoxWidth, comboBoxHeight);
   }
+
   juce::ComboBox comboBox;
 private:
   juce::Label label;
   int labelWidth = 150, labelHeight = 16;
-  int comboBoxWidth = 20, comboBoxHeight = 20;
+  int comboBoxWidth = 100, comboBoxHeight = 20;
+  int padding = 60;
 
   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ComboBoxKnob)
 };
