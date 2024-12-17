@@ -32,8 +32,14 @@ public:
 
   void resized() override {
     auto area = getLocalBounds();
-    slider.setBounds(area.removeFromTop(area.getHeight() - labelHeight).reduced(5));
-    label.setBounds(area);
+
+    int labelX = (area.getWidth() - labelWidth) / 2;
+    int labelY = labelHeight + 10;
+    label.setBounds(labelX, labelY, labelWidth, labelHeight);
+
+    int sliderX = (area.getWidth() - sliderWidth) / 2; // Centered horizontally
+    int sliderY = labelY + labelHeight + 10;
+    slider.setBounds(sliderX, sliderY, sliderWidth, sliderHeight);
   }
 
   juce::Slider slider;

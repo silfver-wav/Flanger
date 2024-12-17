@@ -28,7 +28,6 @@ void VisualComponent::paint (juce::Graphics& g) {
   );
 
   gainMeter.draw(g, gainMeterArea);
-
 }
 
 void VisualComponent::timerCallback() {

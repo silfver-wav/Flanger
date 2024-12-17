@@ -36,7 +36,7 @@ void AudioPluginAudioProcessorEditor::resized() {
   outputComponent.setBounds(sideBarArea);
 
   auto remainingHeight = area.getHeight();
-  auto visualHeight = juce::jmin(230, remainingHeight / 2);
+  auto visualHeight = juce::jmin(250, remainingHeight / 2);
   auto componentHeight = (remainingHeight - visualHeight) / 2;
 
   visualComponent.setBounds(area.removeFromTop(visualHeight));

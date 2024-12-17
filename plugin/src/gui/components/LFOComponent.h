@@ -8,13 +8,13 @@
 #include <juce_core/juce_core.h>
 #include <juce_graphics/juce_graphics.h>
 
-class LFOComponent : public juce::Component {
+class LFOComponent : public juce::Component, juce::AudioProcessorValueTreeState::Listener {
 public:
   LFOComponent(juce::AudioProcessorValueTreeState &parameters)
       : parameters(parameters),
         group("LFO"),
         lfoFreq("Frequency", ParamRange::lfoFreqStart, ParamRange::lfoFreqEnd, ParamRange::lfoFreqInterval, ParamRange::lfoFreqDefault),
-        lfoSyncMode("Sync to project tempo"),
+        lfoSyncMode("Sync to BPM"),
         lfoRate("Rate", ParamRange::lfoRates),
         lfoDepth("Depth", ParamRange::lfoDepthStart, ParamRange::lfoDepthEnd, ParamRange::lfoDepthInterval, ParamRange::lfoDepthDefault),
         waveform("Waveform", ParamRange::waveformChoices),
@@ -39,6 +39,13 @@ public:
         std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(parameters, ParamIDs::waveForm, waveform.comboBox);
     stereoAttachment =
         std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(parameters, ParamIDs::stereo, stereo.slider);
+
+    parameters.addParameterListener(ParamIDs::lfoSyncMode, this);
+    isSyncMode = static_cast<int>(*parameters.getRawParameterValue(ParamIDs::lfoSyncMode)) != 0;
+  }
+
+  ~LFOComponent() override {
+    parameters.removeParameterListener(ParamIDs::lfoSyncMode, this);
   }
 
   void resized() override {
@@ -47,9 +54,15 @@ public:
 
     auto knobWidth = getLocalBounds().getWidth() / 5;
 
-    int mode = static_cast<int>(*parameters.getRawParameterValue(ParamIDs::lfoSyncMode));
-    if (mode == 0) lfoFreq.setBounds(area.removeFromLeft(knobWidth).reduced(10));
-    else lfoRate.setBounds(area.removeFromLeft(knobWidth).reduced(10));
+    if (isSyncMode) {
+      lfoRate.setBounds(area.removeFromLeft(knobWidth).reduced(10));
+      lfoFreq.setVisible(false);
+      lfoRate.setVisible(true);
+    } else {
+      lfoFreq.setBounds(area.removeFromLeft(knobWidth).reduced(10));
+      lfoFreq.setVisible(true);
+      lfoRate.setVisible(false);
+    }
 
     lfoSyncMode.setBounds(area.removeFromLeft(knobWidth).reduced(10));
     lfoDepth.setBounds(area.removeFromLeft(knobWidth).reduced(10));
@@ -58,6 +71,17 @@ public:
   }
 
 private:
+  void parameterChanged(const juce::String& parameterID, float newValue) override {
+    if (parameterID == ParamIDs::lfoSyncMode) {
+      updateLFOMode();
+    }
+  }
+
+  void updateLFOMode() {
+    isSyncMode = static_cast<int>(*parameters.getRawParameterValue(ParamIDs::lfoSyncMode)) != 0;
+    resized();  // Refresh the layout
+  }
+
   juce::AudioProcessorValueTreeState &parameters;
   Group group;
 
@@ -67,6 +91,8 @@ private:
   Knob lfoDepth;
   ComboBoxKnob waveform;
   Knob stereo;
+
+  bool isSyncMode = false;
 
   std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment>
       lfoFreqAttachment;
