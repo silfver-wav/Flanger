@@ -39,15 +39,15 @@ public:
   void getStateInformation(juce::MemoryBlock &destData) override;
   void setStateInformation(const void *data, int sizeInBytes) override;
 
-  Service::PresetManger& getPresetManger() { return *presetManger; }
-  GainMeterSpirograph& getGainMeter() { return gainMeter; }
+  Service::PresetManger &getPresetManger() { return *presetManger; }
+  Gui::GainMeterSpirograph & getGainMeter() { return gainMeter; }
 
   juce::AudioProcessorValueTreeState parameters;
 private:
   juce::dsp::Flanger flanger;
   juce::dsp::TapeSaturation tapeSaturation;
   std::unique_ptr<Service::PresetManger> presetManger;
-  GainMeterSpirograph gainMeter;
+  Gui::GainMeterSpirograph gainMeter;
 
   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(AudioPluginAudioProcessor)
 };

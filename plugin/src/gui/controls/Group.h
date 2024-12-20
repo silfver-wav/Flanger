@@ -4,6 +4,7 @@
 #include <juce_graphics/juce_graphics.h>
 #include <juce_gui_basics/juce_gui_basics.h>
 
+namespace Gui {
 class Group : public juce::Component {
 public:
   Group(const std::string& name) {
@@ -23,3 +24,4 @@ public:
 private:
   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(Group)
 };
+}

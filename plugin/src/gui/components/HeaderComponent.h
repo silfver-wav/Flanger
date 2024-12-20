@@ -5,6 +5,7 @@
 #include <juce_core/juce_core.h>
 #include <juce_graphics/juce_graphics.h>
 
+namespace Gui {
 class HeaderComponent : public juce::Component {
 public:
   HeaderComponent(juce::AudioProcessorValueTreeState& parameters, Service::PresetManger presetManger) : bypass("Bypass"), presetPanel(presetManger) {
@@ -24,3 +25,4 @@ private:
   PresetPanel presetPanel;
   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(HeaderComponent)
 };
+}

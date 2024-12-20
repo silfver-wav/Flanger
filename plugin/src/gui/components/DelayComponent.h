@@ -7,6 +7,7 @@
 #include <juce_core/juce_core.h>
 #include <juce_graphics/juce_graphics.h>
 
+namespace Gui {
 class DelayComponent : public juce::Component {
 public:
   DelayComponent(juce::AudioProcessorValueTreeState &parameters)
@@ -64,3 +65,4 @@ private:
     invWetAttachment;
   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(DelayComponent)
 };
+}

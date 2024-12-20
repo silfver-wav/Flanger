@@ -3,6 +3,7 @@
 #include <juce_core/juce_core.h>
 #include <juce_gui_basics/juce_gui_basics.h>
 
+namespace Gui {
 class PresetPanel : public juce::Component,
                     juce::Button::Listener,
                     juce::ComboBox::Listener {
@@ -104,3 +105,4 @@ private:
 
   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PresetPanel)
 };
+}

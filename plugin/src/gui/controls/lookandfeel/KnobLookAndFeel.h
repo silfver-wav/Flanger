@@ -2,6 +2,7 @@
 
 #include <juce_gui_basics/juce_gui_basics.h>
 
+namespace Gui {
 class KnobLookAndFeel : public juce::LookAndFeel_V4 {
 public:
   void drawRotarySlider(juce::Graphics &g, int x, int y, int width, int height,
@@ -66,3 +67,4 @@ public:
                      1);
   }
 };
+}
