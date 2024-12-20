@@ -20,11 +20,11 @@ public:
 
 private:
   AudioPluginAudioProcessor &processorRef;
-  HeaderComponent headerComponent;
-  VisualComponent visualComponent;
-  OutputComponent outputComponent;
-  DelayComponent delayComponent;
-  LFOComponent lfoComponent;
+  Gui::HeaderComponent headerComponent;
+  Gui::VisualComponent visualComponent;
+  Gui::OutputComponent outputComponent;
+  Gui::DelayComponent delayComponent;
+  Gui::LFOComponent lfoComponent;
 
   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(AudioPluginAudioProcessorEditor)
 };

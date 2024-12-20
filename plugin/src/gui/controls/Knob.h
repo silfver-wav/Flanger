@@ -7,6 +7,7 @@
 #include <juce_graphics/juce_graphics.h>
 #include <juce_gui_basics/juce_gui_basics.h>
 
+namespace Gui {
 class Knob : public juce::Component {
 public:
   Knob(const std::string& name, const float start, const float end,
@@ -53,3 +54,4 @@ private:
 
   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(Knob)
 };
+}

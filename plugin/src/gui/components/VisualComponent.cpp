@@ -4,6 +4,7 @@
 #include <juce_graphics/juce_graphics.h>
 #include <juce_gui_basics/juce_gui_basics.h>
 
+namespace Gui {
 VisualComponent::VisualComponent(juce::AudioProcessorValueTreeState &params, GainMeterSpirograph &gm) : parameters(params), gainMeter(gm) {
   gainMeter.initImages(46, 400);
   gainMeter.setRelease(.5f);
@@ -47,4 +48,5 @@ void VisualComponent::updateGainMeter() {
   opts.spiroColourStart = juce::Colours::blue.withAlpha(alpha);
   opts.armsColourEnd = juce::Colours::blue.withAlpha(alpha / 2.0f);
   gainMeter.setImages(opts);
+}
 }

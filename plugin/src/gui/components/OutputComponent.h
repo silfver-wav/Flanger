@@ -6,6 +6,7 @@
 #include <juce_core/juce_core.h>
 #include <juce_graphics/juce_graphics.h>
 
+namespace Gui {
 class OutputComponent : public juce::Component {
 public:
   OutputComponent(juce::AudioProcessorValueTreeState &parameters)
@@ -54,3 +55,4 @@ private:
     gainAttachment;
   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(OutputComponent)
 };
+}

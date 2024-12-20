@@ -1,6 +1,6 @@
 #include "TapeSaturation.h"
 
-namespace juce::dsp {
+namespace DSP {
 TapeSaturation::TapeSaturation(juce::AudioProcessorValueTreeState &params)
     : parameters(params) {
   parameters.addParameterListener(ParamIDs::saturation, this);

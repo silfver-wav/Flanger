@@ -6,22 +6,22 @@
 #include <juce_core/juce_core.h>
 #include <juce_dsp/juce_dsp.h>
 
-namespace juce::dsp {
+namespace DSP {
 class Flanger : public juce::AudioProcessorValueTreeState::Listener {
 public:
   Flanger(juce::AudioProcessorValueTreeState &params);
   ~Flanger();
   void prepare(juce::dsp::ProcessSpec &spec);
-  void process(const ProcessContextReplacing<float>& context);
+  void process(const juce::dsp::ProcessContextReplacing<float>& context);
   void reset();
   void setBPM(double bpm);
 private:
-  AudioProcessorValueTreeState &parameters;
-  Oscillator<float> osc;
-  DelayLine<float, DelayLineInterpolationTypes::Linear> delay;
-  DryWetMixer<float> dryWet;
-  std::vector<float> feedback { 2 };
-  AudioBuffer<float> bufferDelayTimes;
+  juce::AudioProcessorValueTreeState &parameters;
+  juce::dsp::Oscillator<float> osc;
+  juce::dsp::DelayLine<float, juce::dsp::DelayLineInterpolationTypes::Linear> delay;
+  juce::dsp::DryWetMixer<float> dryWet;
+  std::vector<float> feedback{2};
+  juce::AudioBuffer<float> bufferDelayTimes;
 
   double sampleRate = 44100.0;
   int numChannels = 0;

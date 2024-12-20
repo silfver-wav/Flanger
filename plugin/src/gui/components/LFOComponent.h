@@ -8,6 +8,7 @@
 #include <juce_core/juce_core.h>
 #include <juce_graphics/juce_graphics.h>
 
+namespace Gui {
 class LFOComponent : public juce::Component, juce::AudioProcessorValueTreeState::Listener {
 public:
   LFOComponent(juce::AudioProcessorValueTreeState &parameters)
@@ -108,3 +109,4 @@ private:
       stereoAttachment;
   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(LFOComponent)
 };
+}

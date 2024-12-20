@@ -6,6 +6,7 @@
 #include <juce_core/juce_core.h>
 #include <juce_graphics/juce_graphics.h>
 
+namespace Gui {
 class GainMeter{
 public:
   GainMeter() : m_magnitude(0.f), m_gain(0.f), m_release(.2f), m_imageIdx(0),
@@ -108,3 +109,4 @@ public:
 private:
   float m_iRel = 0.f;
 };
+}

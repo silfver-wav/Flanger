@@ -1,6 +1,6 @@
 #include "Flanger.h"
 
-namespace juce::dsp {
+namespace DSP {
 Flanger::Flanger(juce::AudioProcessorValueTreeState &params)
     : parameters(params) {
   parameters.addParameterListener(ParamIDs::lfoFreq, this);
@@ -8,7 +8,7 @@ Flanger::Flanger(juce::AudioProcessorValueTreeState &params)
   parameters.addParameterListener(ParamIDs::lfoSyncMode, this);
   parameters.addParameterListener(ParamIDs::mix, this);
   parameters.addParameterListener(ParamIDs::waveForm, this);
-  dryWet.setMixingRule(DryWetMixingRule::linear);
+  dryWet.setMixingRule(juce::dsp::DryWetMixingRule::linear);
 }
 
 Flanger::~Flanger() {
@@ -19,7 +19,7 @@ Flanger::~Flanger() {
   parameters.removeParameterListener(ParamIDs::waveForm, this);
 }
 
-void Flanger::prepare(ProcessSpec &spec) {
+void Flanger::prepare(juce::dsp::ProcessSpec &spec) {
 
   jassert(spec.sampleRate > 0);
   jassert(spec.numChannels > 0);
@@ -30,7 +30,7 @@ void Flanger::prepare(ProcessSpec &spec) {
   const auto maxPossibleDelay =
       std::ceil((maximumDelayModulation * maxDepth + maxCentreDelayMs) *
                 sampleRate / 1000.0);
-  delay = DelayLine<float, DelayLineInterpolationTypes::Linear>{
+  delay = juce::dsp::DelayLine<float, juce::dsp::DelayLineInterpolationTypes::Linear>{
       static_cast<int>(maxPossibleDelay)};
   delay.prepare(spec);
 
@@ -54,7 +54,8 @@ void Flanger::reset() {
   dryWet.reset();
 }
 
-void Flanger::process(const ProcessContextReplacing<float> &context) {
+void Flanger::process(
+    const juce::dsp::ProcessContextReplacing<float> &context) {
   const auto &inputBlock = context.getInputBlock();
   auto &outputBlock = context.getOutputBlock();
   const auto numChannels = outputBlock.getNumChannels();
@@ -125,14 +126,14 @@ void Flanger::updateOsc() {
     break;
   case 1:
     oscFunction = [](float x) {
-      return (2 / MathConstants<float>::pi) * std::asin(std::sin(x));
+      return (2 / juce::MathConstants<float>::pi) * std::asin(std::sin(x));
     };
     break;
   case 2:
     oscFunction = [](float x) { return x < 0.0f ? -1.0f : 1.0f; };
     break;
   case 3:
-    oscFunction = [](float x) { return x / MathConstants<float>::pi; };
+    oscFunction = [](float x) { return x / juce::MathConstants<float>::pi; };
     break;
   default:
     oscFunction = [](float x) { return std::sin(x); };
@@ -163,9 +164,8 @@ float Flanger::getSubdivisionFreq(const int choice) const {
   if (BPM <= 0.0)
     return 0.0f;
 
-  double beatDuration = 60.0 / BPM; // Duration of a quarter note (1/4) in seconds
+  double beatDuration = 60.0 / BPM; // Quarter note (1/4) in seconds
 
-  // Multiplier for each note subdivision
   double multiplier = 1.0;
   switch (choice) {
   case 0:  // Whole note (1/1)
@@ -205,10 +205,9 @@ float Flanger::getSubdivisionFreq(const int choice) const {
     return 0.0f; // Invalid choice
   }
 
-  // Frequency in Hertz (inverted duration)
   double freq = 1.0 / (beatDuration * multiplier);
 
   return static_cast<float>(freq);
 }
 
-} // namespace juce::dsp
+}

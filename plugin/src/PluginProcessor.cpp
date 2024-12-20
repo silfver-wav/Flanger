@@ -1,6 +1,7 @@
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
 #include "utils/Params.h"
+#include "utils/ProjectInfo.h"
 
 AudioPluginAudioProcessor::AudioPluginAudioProcessor()
     : AudioProcessor(
@@ -16,6 +17,10 @@ AudioPluginAudioProcessor::AudioPluginAudioProcessor()
       flanger(parameters),
       tapeSaturation(parameters)
 {
+  parameters.state.setProperty(Service::PresetManger::presetNameProperty, "", nullptr);
+  parameters.state.setProperty("version", ProjectInfo::versionString, nullptr);
+
+  presetManger = std::make_unique<Service::PresetManger>(parameters);
 }
 AudioPluginAudioProcessor::~AudioPluginAudioProcessor() {}
 
@@ -155,18 +160,18 @@ juce::AudioProcessorEditor *AudioPluginAudioProcessor::createEditor() {
 
 void AudioPluginAudioProcessor::getStateInformation(
     juce::MemoryBlock &destData) {
-  // You should use this method to store your parameters in the memory block.
-  // You could do that either as raw data, or use the XML or ValueTree classes
-  // as intermediaries to make it easy to save and load complex data.
-  juce::ignoreUnused(destData);
+  const auto state = parameters.copyState();
+  const auto xml(state.createXml());
+  copyXmlToBinary(*xml, destData);
 }
 
 void AudioPluginAudioProcessor::setStateInformation(const void *data,
                                                     int sizeInBytes) {
-  // You should use this method to restore your parameters from this memory
-  // block, whose contents will have been created by the getStateInformation()
-  // call.
-  juce::ignoreUnused(data, sizeInBytes);
+  const auto xmlState = getXmlFromBinary(data, sizeInBytes);
+  if (xmlState == nullptr)
+    return;
+  const auto newTree = juce::ValueTree::fromXml(*xmlState);
+  parameters.replaceState(newTree);
 }
 
 // This creates new instances of the plugin.

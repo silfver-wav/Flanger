@@ -4,6 +4,7 @@
 #include <juce_graphics/juce_graphics.h>
 #include <vector>
 
+namespace Gui {
 struct Paintings {
   Paintings() = default;
 
@@ -16,7 +17,7 @@ struct Paintings {
   }
 
   void draw(juce::Graphics& g) {
-      g.drawImage(image, image.getBounds().toFloat());
+    g.drawImage(image, image.getBounds().toFloat());
   }
 
   void draw(juce::Graphics& g, juce::Rectangle<float> bounds, int rp = juce::RectanglePlacement::stretchToFit, bool fillAlphaWithCurrentBrush = false) {
@@ -77,3 +78,4 @@ public:
     g.strokePath(path, juce::PathStrokeType(spirographThickness));
   }
 };
+}

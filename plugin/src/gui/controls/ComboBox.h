@@ -4,6 +4,7 @@
 #include <juce_graphics/juce_graphics.h>
 #include <juce_gui_basics/juce_gui_basics.h>
 
+namespace Gui {
 class ComboBoxKnob : public juce::Component {
 public:
   ComboBoxKnob(const std::string& name, const juce::StringArray& options) {
@@ -40,3 +41,4 @@ private:
 
   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ComboBoxKnob)
 };
+}

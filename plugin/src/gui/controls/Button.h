@@ -4,6 +4,7 @@
 #include <juce_graphics/juce_graphics.h>
 #include <juce_gui_basics/juce_gui_basics.h>
 
+namespace Gui {
 class Button : public juce::Component {
 public:
   Button(const std::string& name) {
@@ -15,11 +16,11 @@ public:
     button.setSize(buttonWidth, buttonHeight);
     addAndMakeVisible(button);
   }
-/*
-  void paint(juce::Graphics &g) {
-    g.fillAll(juce::Colours::black);
-  }
-*/
+  /*
+    void paint(juce::Graphics &g) {
+      g.fillAll(juce::Colours::black);
+    }
+  */
   void resized() override {
     auto area = getLocalBounds();
 
@@ -41,3 +42,4 @@ private:
 
   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(Button)
 };
+}
