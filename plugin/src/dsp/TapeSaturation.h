@@ -2,11 +2,10 @@
 
 #include "../utils/Params.h"
 
-#include <juce_audio_basics/juce_audio_basics.h>
 #include <juce_core/juce_core.h>
 #include <juce_dsp/juce_dsp.h>
 
-namespace juce::dsp {
+namespace DSP {
 class TapeSaturation : public juce::AudioProcessorValueTreeState::Listener {
 public:
   TapeSaturation(juce::AudioProcessorValueTreeState &params);
@@ -40,8 +39,8 @@ public:
   }
 
 private:
-  AudioProcessorValueTreeState &parameters;
-  DryWetMixer<float> dryWet;
+  juce::AudioProcessorValueTreeState &parameters;
+  juce::dsp::DryWetMixer<float> dryWet;
 
   void parameterChanged(const juce::String &parameterID, float newValue);
   [[nodiscard]] float getSaturation() const {

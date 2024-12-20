@@ -44,8 +44,8 @@ public:
 
   juce::AudioProcessorValueTreeState parameters;
 private:
-  juce::dsp::Flanger flanger;
-  juce::dsp::TapeSaturation tapeSaturation;
+  DSP::Flanger flanger;
+  DSP::TapeSaturation tapeSaturation;
   std::unique_ptr<Service::PresetManger> presetManger;
   Gui::GainMeterSpirograph gainMeter;
 
