@@ -6,7 +6,8 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor(
     AudioPluginAudioProcessor &p)
     : AudioProcessorEditor(&p),
     processorRef(p),
-    visualComponent(p.parameters, p.gainMeter),
+    headerComponent(p.parameters, p.getPresetManger()),
+    visualComponent(p.parameters, p.getGainMeter()),
     delayComponent(p.parameters),
     lfoComponent(p.parameters),
     outputComponent(p.parameters)
