@@ -20,7 +20,7 @@ void VisualComponent::paint (juce::Graphics& g) {
   g.setImageResamplingQuality(juce::Graphics::lowResamplingQuality);
 
   auto area = getLocalBounds().toFloat();
-  constexpr float squareSize = 400.0f;
+  float squareSize = area.getHeight() - 5.0f;
   const auto gainMeterArea = juce::Rectangle(
       area.getCentreX() - (squareSize / 2.0f),
       area.getCentreY() - (squareSize / 2.0f),
