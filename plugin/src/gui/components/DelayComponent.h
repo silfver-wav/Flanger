@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../controls/Group.h"
 #include "../controls/Button.h"
+#include "../controls/Group.h"
 #include "../controls/Knob.h"
 
 #include <juce_core/juce_core.h>
@@ -17,8 +17,8 @@ public:
               ParamRange::delayInterval, ParamRange::delayDefault),
         feedback("Feedback", ParamRange::feedbackStart, ParamRange::feedbackEnd,
                  ParamRange::feedbackInterval, ParamRange::feedbackDefault),
-        invPolarity("Invert Polarity"),
-        invWet("Invert Wetness")
+        invPolarity("Invert Polarity", ParamIDs::invertPolarity),
+        invWet("Invert Wetness", ParamIDs::invertWet)
   {
     addAndMakeVisible(group);
     addAndMakeVisible(delay);
