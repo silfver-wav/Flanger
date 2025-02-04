@@ -1,8 +1,8 @@
 #pragma once
 
-#include "../controls/Group.h"
 #include "../controls/Button.h"
 #include "../controls/ComboBox.h"
+#include "../controls/Group.h"
 #include "../controls/Knob.h"
 
 #include <juce_core/juce_core.h>
@@ -15,7 +15,7 @@ public:
       : parameters(parameters),
         group("LFO"),
         lfoFreq("Frequency", ParamRange::lfoFreqStart, ParamRange::lfoFreqEnd, ParamRange::lfoFreqInterval, ParamRange::lfoFreqDefault),
-        lfoSyncMode("Sync to BPM"),
+        lfoSyncMode("Sync to BPM", ParamIDs::lfoSyncMode),
         lfoRate("Rate", ParamRange::lfoRates),
         lfoDepth("Depth", ParamRange::lfoDepthStart, ParamRange::lfoDepthEnd, ParamRange::lfoDepthInterval, ParamRange::lfoDepthDefault),
         waveform("Waveform", ParamRange::waveformChoices),
