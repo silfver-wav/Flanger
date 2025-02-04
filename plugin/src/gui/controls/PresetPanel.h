@@ -31,7 +31,7 @@ public:
   }
 
   void resized() override {
-    const auto container = getLocalBounds().reduced(4);
+    const auto container = getLocalBounds().reduced(2);
     auto bounds = container;
 
     saveButton.setBounds(
