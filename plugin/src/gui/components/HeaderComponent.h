@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../../utils/Params.h"
 #include "../controls/PresetPanel.h"
 
 #include <juce_core/juce_core.h>
@@ -15,7 +16,7 @@ public:
     addAndMakeVisible(powerButton);
 
     powerButtonAttachment =
-    std::make_unique<juce::AudioProcessorValueTreeState::ButtonAttachment>(parameters, ParamIDs::bypass, powerButton);
+    std::make_unique<juce::AudioProcessorValueTreeState::ButtonAttachment>(parameters, ParamIDs::power, powerButton);
   }
 
   void paint (juce::Graphics& g) override {

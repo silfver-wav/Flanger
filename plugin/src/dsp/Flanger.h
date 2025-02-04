@@ -55,12 +55,8 @@ private:
     return *parameters.getRawParameterValue(ParamIDs::invertWet);
   }
 
-  [[nodiscard]] bool getBypass() const {
-    return *parameters.getRawParameterValue(ParamIDs::bypass);
-  }
-
   [[nodiscard]] float getLFOFreq() const {
-    return *parameters.getRawParameterValue(ParamIDs::lfoFreq);
+     return *parameters.getRawParameterValue(ParamIDs::lfoFreq);
   }
 
   [[nodiscard]] int getLFOSyncRate() const {

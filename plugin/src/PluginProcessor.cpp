@@ -134,9 +134,8 @@ void AudioPluginAudioProcessor::processBlock(juce::AudioBuffer<float> &buffer,
       flanger.setBPM(*position->getBpm());
   }
 
-  if (*parameters.getRawParameterValue(ParamIDs::bypass)) {
-    return;
-  }
+  if (!(bool)*parameters.getRawParameterValue(ParamIDs::power)) return;
+
   juce::dsp::AudioBlock<float> sampleBlock (buffer);
   auto context = juce::dsp::ProcessContextReplacing<float> (sampleBlock);
   flanger.process (context);

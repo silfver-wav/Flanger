@@ -76,8 +76,8 @@ Params::createParameterLayout() {
                                ParamRange::gainInterval),
       ParamRange::gainDefault));
 
-  params.push_back(std::make_unique<juce::AudioParameterBool>(ParamIDs::bypass,
-                                                              "Bypass", false));
+  params.push_back(std::make_unique<juce::AudioParameterBool>(ParamIDs::power,
+                                                              "Power", true));
 
   return {params.begin(), params.end()};
 }
