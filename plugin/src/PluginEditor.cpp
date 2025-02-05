@@ -24,21 +24,22 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor(
 AudioPluginAudioProcessorEditor::~AudioPluginAudioProcessorEditor() {}
 
 void AudioPluginAudioProcessorEditor::paint(juce::Graphics &g) {
-  g.fillAll(juce::Colours::white);
+  g.fillAll(Colours::primaryColour.brighter(0.35f));
 }
 
 void AudioPluginAudioProcessorEditor::resized() {
+  const int padding = 3;
   auto area = getLocalBounds();
   auto topArea = area.removeFromTop(area.proportionOfHeight(0.5f));
-  auto bottomArea = area;
+  auto bottomArea = area.reduced(padding);;
 
   headerComponent.setBounds(topArea.removeFromTop(area.proportionOfHeight(0.1f)));
   visualComponent.setBounds(topArea);
 
   auto outputArea = bottomArea.removeFromRight(bottomArea.proportionOfWidth(0.2f));
-  outputComponent.setBounds(outputArea);
-  delayComponent.setBounds(bottomArea.removeFromTop(bottomArea.proportionOfHeight(0.5f)));
-  lfoComponent.setBounds(bottomArea);
+  outputComponent.setBounds(outputArea.reduced(padding));
+  delayComponent.setBounds(bottomArea.removeFromTop(bottomArea.proportionOfHeight(0.5f)).reduced(padding));
+  lfoComponent.setBounds(bottomArea.reduced(padding));
 }
 
 
