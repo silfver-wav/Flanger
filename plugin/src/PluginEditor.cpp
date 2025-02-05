@@ -30,19 +30,19 @@ void AudioPluginAudioProcessorEditor::paint(juce::Graphics &g) {
 void AudioPluginAudioProcessorEditor::resized() {
   auto area = getLocalBounds();
 
-  auto headerHeight = 36;
-  headerComponent.setBounds(area.removeFromTop(headerHeight));
 
-  auto sideBarArea = area.removeFromRight(juce::jmax(80, area.getWidth() / 4));
-  outputComponent.setBounds(sideBarArea);
+  auto topArea = area.removeFromTop(area.proportionOfHeight(0.5f));
+  auto bottomArea = area;
 
-  auto remainingHeight = area.getHeight();
-  auto visualHeight = juce::jmin(250, remainingHeight / 2);
-  auto componentHeight = (remainingHeight - visualHeight) / 2;
 
-  visualComponent.setBounds(area.removeFromTop(visualHeight));
-  delayComponent.setBounds(area.removeFromTop(componentHeight));
-  lfoComponent.setBounds(area);
+  headerComponent.setBounds(topArea.removeFromTop(area.proportionOfHeight(0.1f)));
+  visualComponent.setBounds(topArea);
+
+
+  auto outputArea = bottomArea.removeFromRight(bottomArea.proportionOfWidth(0.2f));
+  outputComponent.setBounds(outputArea);
+  delayComponent.setBounds(bottomArea.removeFromTop(bottomArea.proportionOfHeight(0.5f)));
+  lfoComponent.setBounds(bottomArea);
 }
 
 

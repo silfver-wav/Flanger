@@ -12,17 +12,13 @@ public:
   OutputComponent(juce::AudioProcessorValueTreeState &parameters)
       : parameters(parameters),
         group("Output"),
-        saturation("Saturation", ParamRange::saturationStart, ParamRange::saturationEnd, ParamRange::saturationInterval, ParamRange::saturationDefault),
         mix("Mix", ParamRange::mixStart, ParamRange::mixEnd, ParamRange::mixInterval, ParamRange::mixDefault),
         gain("Gain", ParamRange::gainStart, ParamRange::gainEnd, ParamRange::gainInterval, ParamRange::gainDefault)
   {
     addAndMakeVisible(group);
-    addAndMakeVisible(saturation);
     addAndMakeVisible(mix);
     addAndMakeVisible(gain);
 
-    saturationAttachment =
-        std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(parameters, ParamIDs::saturation, saturation.slider);
     mixAttachment =
         std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(parameters, ParamIDs::mix, mix.slider);
     gainAttachment =
@@ -34,7 +30,6 @@ public:
     group.setBounds(area.reduced(2));
 
     auto knobHeight = getLocalBounds().getHeight() / 3;
-    saturation.setBounds(area.removeFromTop(knobHeight).reduced(10));
     mix.setBounds(area.removeFromTop(knobHeight).reduced(10));
     gain.setBounds(area.removeFromTop(knobHeight).reduced(10));
   }
@@ -43,12 +38,9 @@ private:
   juce::AudioProcessorValueTreeState &parameters;
   Group group;
 
-  Knob saturation;
   Knob mix;
   Knob gain;
 
-  std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment>
-      saturationAttachment;
   std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment>
       mixAttachment;
   std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment>
