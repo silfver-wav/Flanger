@@ -25,6 +25,10 @@ public:
       std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(parameters, ParamIDs::gain, gain.slider);
   }
 
+  void paint(juce::Graphics &g) override {
+    g.fillAll(Colours::primaryColour);
+  }
+
   void resized() override {
     auto area = getLocalBounds();
     group.setBounds(area.reduced(2));

@@ -49,6 +49,10 @@ public:
     parameters.removeParameterListener(ParamIDs::lfoSyncMode, this);
   }
 
+  void paint(juce::Graphics &g) override {
+    g.fillAll(Colours::primaryColour);
+  }
+
   void resized() override {
     auto area = getLocalBounds();
     group.setBounds(area.reduced(2));

@@ -9,6 +9,7 @@ class ComboBoxKnob : public juce::Component {
 public:
   ComboBoxKnob(const std::string& name, const juce::StringArray& options) {
     label.setText(name, juce::dontSendNotification);
+    label.setColour(juce::Label::textColourId, juce::Colours::black);
     label.setSize(labelWidth, labelHeight);
     label.setJustificationType(juce::Justification::centred);
     addAndMakeVisible(label);
@@ -17,6 +18,10 @@ public:
       comboBox.addItem(options[i], i + 1);
     }
 
+    comboBox.setColour(juce::ComboBox::textColourId, juce::Colours::black);
+    comboBox.setColour(juce::ComboBox::arrowColourId, juce::Colours::black);
+    comboBox.setColour(juce::ComboBox::backgroundColourId, juce::Colours::transparentWhite);
+    comboBox.setColour(juce::ComboBox::outlineColourId, juce::Colours::transparentWhite);
     addAndMakeVisible(comboBox);
   }
 

@@ -18,7 +18,7 @@ public:
         feedback("Feedback", ParamRange::feedbackStart, ParamRange::feedbackEnd,
                  ParamRange::feedbackInterval, ParamRange::feedbackDefault),
         invPolarity("Invert Polarity", ParamIDs::invertPolarity),
-        invWet("Invert Wetness", ParamIDs::invertWet)
+        invWet("Invert Wet", ParamIDs::invertWet)
   {
     addAndMakeVisible(group);
     addAndMakeVisible(delay);
@@ -34,6 +34,10 @@ public:
       std::make_unique<juce::AudioProcessorValueTreeState::ButtonAttachment>(parameters, ParamIDs::invertPolarity, invPolarity.button);
     invWetAttachment =
       std::make_unique<juce::AudioProcessorValueTreeState::ButtonAttachment>(parameters, ParamIDs::invertWet, invWet.button);
+  }
+
+  void paint(juce::Graphics &g) override {
+    g.fillAll(Colours::primaryColour);
   }
 
   void resized() override {

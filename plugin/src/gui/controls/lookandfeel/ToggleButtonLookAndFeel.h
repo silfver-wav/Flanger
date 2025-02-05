@@ -27,7 +27,7 @@ class ToggleButtonLookAndFeel : public juce::LookAndFeel_V4 {
                                 true);
 
     juce::PathStrokeType pst(2.0f, juce::PathStrokeType::curved);
-    auto colour = toggleButton.getToggleState() ? toggleButton.findColour(juce::ToggleButton::tickColourId) : juce::Colours::dimgrey;
+    auto colour = toggleButton.getToggleState() ? juce::Colours::black : juce::Colours::dimgrey;
 
     g.setColour(colour);
     g.strokePath(powerButton, pst);

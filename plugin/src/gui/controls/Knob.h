@@ -13,6 +13,7 @@ public:
   Knob(const std::string& name, const float start, const float end,
        const float interval, const float defaultValue) {
     label.setText(name, juce::dontSendNotification);
+    label.setColour(juce::Label::textColourId, juce::Colours::black);
     label.setSize(labelWidth, labelHeight);
     label.setJustificationType(juce::Justification::centred);
     addAndMakeVisible(label);

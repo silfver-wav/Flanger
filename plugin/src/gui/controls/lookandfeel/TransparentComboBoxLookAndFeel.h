@@ -6,15 +6,6 @@ class TransparentComboBoxLookAndFeel : public juce::LookAndFeel_V4 {
 public:
   void drawComboBox (juce::Graphics &g, int width, int height, bool isButtonDown,
                      int buttonX, int buttonY, int buttonW, int buttonH, juce::ComboBox &box) override {
-    /*
-    g.setColour (juce::Colours::transparentBlack); // Transparent background
-    g.fillRect (0, 0, width, height);
-
-
-    // g.setFont (box.getFont());
-    g.drawText (box.getText(), box.getLocalBounds().reduced(5, 0), juce::Justification::centredLeft, true);
-    */
-    // Draw the outline of the ComboBox
     auto cornerSize = box.findParentComponentOfClass<juce::ChoicePropertyComponent>() != nullptr ? 0.0f : 3.0f;
     juce::Rectangle<int> boxBounds (0, 0, width, height);
 

@@ -24,20 +24,16 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor(
 AudioPluginAudioProcessorEditor::~AudioPluginAudioProcessorEditor() {}
 
 void AudioPluginAudioProcessorEditor::paint(juce::Graphics &g) {
-  g.fillAll(Colours::primaryColour);
+  g.fillAll(juce::Colours::white);
 }
 
 void AudioPluginAudioProcessorEditor::resized() {
   auto area = getLocalBounds();
-
-
   auto topArea = area.removeFromTop(area.proportionOfHeight(0.5f));
   auto bottomArea = area;
 
-
   headerComponent.setBounds(topArea.removeFromTop(area.proportionOfHeight(0.1f)));
   visualComponent.setBounds(topArea);
-
 
   auto outputArea = bottomArea.removeFromRight(bottomArea.proportionOfWidth(0.2f));
   outputComponent.setBounds(outputArea);
