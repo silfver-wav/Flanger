@@ -20,7 +20,7 @@ public:
 
     slider.setSliderStyle(juce::Slider::SliderStyle::Rotary);
     slider.setSize(sliderWidth, sliderHeight);
-    slider.setTextBoxStyle(juce::Slider::TextBoxBelow, false, textBoxWidth, textBoxHeight);
+    slider.setTextBoxStyle(juce::Slider::NoTextBox, false, 0, 0);
     slider.setLookAndFeel(&knobLookAndFeel);
 
     slider.setRange(start, end, interval);
@@ -35,13 +35,15 @@ public:
   void resized() override {
     auto area = getLocalBounds();
 
+    int sliderX = (area.getWidth() - sliderWidth) / 2; // Centered horizontally
+    int sliderY = labelHeight + 10;
+    slider.setBounds(sliderX, sliderY, sliderWidth, sliderHeight);
+
+    /*
     int labelX = (area.getWidth() - labelWidth) / 2;
     int labelY = labelHeight + 10;
     label.setBounds(labelX, labelY, labelWidth, labelHeight);
-
-    int sliderX = (area.getWidth() - sliderWidth) / 2; // Centered horizontally
-    int sliderY = labelY + labelHeight + 10;
-    slider.setBounds(sliderX, sliderY, sliderWidth, sliderHeight);
+    */
   }
 
   juce::Slider slider;

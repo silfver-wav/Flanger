@@ -46,6 +46,7 @@ public:
   void resized() override {
     auto area = getLocalBounds();
     group.setBounds(area.reduced(2));
+
     auto knobWidth = getLocalBounds().getWidth() / 4;
     delay.setBounds(area.removeFromLeft(knobWidth).reduced(10));
     invWet.setBounds(area.removeFromLeft(knobWidth).reduced(10));

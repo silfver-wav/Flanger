@@ -7,64 +7,43 @@ class KnobLookAndFeel : public juce::LookAndFeel_V4 {
 public:
   void drawRotarySlider(juce::Graphics &g, int x, int y, int width, int height,
                         float sliderPos, const float rotaryStartAngle,
-                        const float rotaryEndAngle, juce::Slider &) override {
-    // Radius of knob
-    auto radius = juce::jmin(width / 2, height / 2) - 5.0f;
-    // Centre point (centreX, centreY) of knob
-    auto centreX = x + width * 0.5f;
-    auto centreY = y + radius + 12.f;
+                        const float rotaryEndAngle,
+                        juce::Slider &slider) override {
+
+    const auto radius =
+        static_cast<float>(juce::jmin(width / 2, height / 2)) - 5.0f;
+    const auto centreX = static_cast<float>(x + width) * 0.5f;
+    const auto centreY = static_cast<float>(y) + radius + 12.f;
 
     // Current angle of the slider
     auto angle =
         rotaryStartAngle + sliderPos * (rotaryEndAngle - rotaryStartAngle);
 
-    // Draw path of the slider background (in darker background colour)
-    juce::Path backgroundArc;
-    backgroundArc.addCentredArc(centreX, centreY, radius, radius, 0.0f,
-                                rotaryStartAngle, rotaryEndAngle, true);
-    juce::Colour myColour = juce::Colours::black;
+    // Draw path of the slider background (in lighter background colour)
+    drawArc(g, centreX, centreY, radius, rotaryStartAngle, rotaryEndAngle,
+            juce::Colours::dimgrey);
 
-    g.setColour(myColour);
-    g.strokePath(backgroundArc,
-                 juce::PathStrokeType(3.f, juce::PathStrokeType::curved,
-                                      juce::PathStrokeType::rounded));
+    // Draw path of slider foreground (in black)
+    drawArc(g, centreX, centreY, radius, rotaryStartAngle, angle,
+            juce::Colours::black);
 
-    // Draw path of slider foreground (in blue)
-    juce::Path foregroundArc;
-    foregroundArc.addCentredArc(centreX, centreY, radius, radius, 0.0f,
-                                rotaryStartAngle, angle, true);
-    g.setColour(juce::Colour::fromRGB(51, 191, 219));
-    g.strokePath(foregroundArc,
-                 juce::PathStrokeType(3.f, juce::PathStrokeType::curved,
-                                      juce::PathStrokeType::rounded));
-
-    // Pointer
-    juce::Path p;
-    auto pointerLength = radius * 1.f;
-    auto pointerThickness = 4.0f;
-
-    p.addRectangle(-pointerThickness * 0.5f, -radius - 1.3f, pointerThickness,
-                   pointerLength);
-    p.applyTransform(
-        juce::AffineTransform::rotation(angle).translated(centreX, centreY));
-
-    // Set color pointer to black
+    // Draw the value in the center of the knob
     g.setColour(juce::Colours::black);
-
-    // Draw the pointer
-    g.fillPath(p);
+    g.setFont(radius * 0.22f); // Font size relative to the radius
+    g.drawSingleLineText(juce::String(slider.getValue()), static_cast<int>(centreX), static_cast<int>(centreY),
+                         juce::Justification::centred);
   }
 
-  // Slider textbox
-  void drawLabel(juce::Graphics &g, juce::Label &label) override {
-    g.setColour(juce::Colours::white);
+  static void drawArc(juce::Graphics &g, auto centreX, auto centreY,
+                      auto radius, float rotaryStartAngle, float rotaryEndAngle,
+                      const juce::Colour colour) {
+    juce::Path arc;
+    arc.addCentredArc(centreX, centreY, radius, radius, 0.0f, rotaryStartAngle,
+                      rotaryEndAngle, true);
 
-    juce::String text = label.getText();
-    int width = label.getWidth();
-    int height = label.getHeight();
-    g.setFont(juce::FontOptions(static_cast<float>(height), juce::Font::plain));
-    g.drawFittedText(text, 0, 0, width, height, juce::Justification::centred,
-                     1);
+    g.setColour(colour);
+    g.strokePath(arc, juce::PathStrokeType(4.f, juce::PathStrokeType::curved,
+                                           juce::PathStrokeType::rounded));
   }
 };
-}
+} // namespace Gui

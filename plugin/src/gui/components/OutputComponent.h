@@ -36,9 +36,9 @@ public:
     auto area = getLocalBounds();
     group.setBounds(area.reduced(2));
 
-    auto knobHeight = getLocalBounds().getHeight() / 3;
+    auto knobHeight = getLocalBounds().getHeight() / 2;
     mix.setBounds(area.removeFromTop(knobHeight).reduced(10));
-    gain.setBounds(area.removeFromTop(knobHeight).reduced(10));
+    gain.setBounds(area.reduced(10));
   }
 
 private:
