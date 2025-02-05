@@ -1,5 +1,7 @@
 #include "VisualComponent.h"
 
+#include "../../utils/Utils.h"
+
 #include <juce_core/juce_core.h>
 #include <juce_graphics/juce_graphics.h>
 #include <juce_gui_basics/juce_gui_basics.h>
@@ -13,10 +15,12 @@ VisualComponent::VisualComponent(juce::AudioProcessorValueTreeState &params, Gai
 
   auto fps = 24.f;
   startTimer(static_cast<int>(1000.f / fps));
+
+  setBufferedToImage(true);
 }
 
 void VisualComponent::paint (juce::Graphics& g) {
-  g.fillAll (juce::Colours::black);
+  g.setColour(juce::Colours::black);
   g.setImageResamplingQuality(juce::Graphics::lowResamplingQuality);
 
   auto area = getLocalBounds().toFloat();

@@ -10,8 +10,8 @@ public:
   Group(const std::string& name) {
     group.setText(name);
     // group.setColour(juce::GroupComponent::outlineColourId, juce::Colours::white);
-    group.setColour(juce::GroupComponent::outlineColourId, juce::Colours::black);
-    group.setColour(juce::GroupComponent::textColourId, juce::Colours::white);
+    group.setColour(juce::GroupComponent::outlineColourId, juce::Colours::transparentWhite);
+    group.setColour(juce::GroupComponent::textColourId, juce::Colours::black);
     addAndMakeVisible(group);
   }
 

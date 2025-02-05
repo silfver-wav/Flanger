@@ -12,6 +12,7 @@ class Button : public juce::Component {
 public:
   Button(const std::string& name, auto id) {
     label.setText(name, juce::dontSendNotification);
+    label.setColour(juce::Label::textColourId, juce::Colours::black);
     label.setSize(labelWidth, labelHeight);
     label.setJustificationType(juce::Justification::centred);
     addAndMakeVisible(label);

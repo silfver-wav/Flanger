@@ -1,19 +1,17 @@
 #include "PluginEditor.h"
 #include "PluginProcessor.h"
-#include "utils/Colours.h"
+#include "utils/Utils.h"
 
 AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor(
     AudioPluginAudioProcessor &p)
     : AudioProcessorEditor(&p),
     processorRef(p),
-    headerComponent(p.parameters, p.getPresetManger()),
-    visualComponent(p.parameters, p.getGainMeter()),
+    topComponent(p.parameters, p.getPresetManger(), p.getGainMeter()),
     delayComponent(p.parameters),
     lfoComponent(p.parameters),
     outputComponent(p.parameters)
 {
-  addAndMakeVisible (headerComponent);
-  addAndMakeVisible(visualComponent);
+  addAndMakeVisible (topComponent);
   addAndMakeVisible(outputComponent);
   addAndMakeVisible(delayComponent);
   addAndMakeVisible(lfoComponent);
@@ -24,25 +22,18 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor(
 AudioPluginAudioProcessorEditor::~AudioPluginAudioProcessorEditor() {}
 
 void AudioPluginAudioProcessorEditor::paint(juce::Graphics &g) {
-  g.fillAll(Colours::primaryColour);
+  g.fillAll(Colours::primaryColour.brighter(0.35f));
 }
 
 void AudioPluginAudioProcessorEditor::resized() {
   auto area = getLocalBounds();
+  topComponent.setBounds(area.removeFromTop(area.proportionOfHeight(0.5f)));
 
-  auto headerHeight = 36;
-  headerComponent.setBounds(area.removeFromTop(headerHeight));
-
-  auto sideBarArea = area.removeFromRight(juce::jmax(80, area.getWidth() / 4));
-  outputComponent.setBounds(sideBarArea);
-
-  auto remainingHeight = area.getHeight();
-  auto visualHeight = juce::jmin(250, remainingHeight / 2);
-  auto componentHeight = (remainingHeight - visualHeight) / 2;
-
-  visualComponent.setBounds(area.removeFromTop(visualHeight));
-  delayComponent.setBounds(area.removeFromTop(componentHeight));
-  lfoComponent.setBounds(area);
+  auto bottomArea = area.reduced(Layout::padding);
+  auto outputArea = bottomArea.removeFromRight(bottomArea.proportionOfWidth(0.2f));
+  outputComponent.setBounds(outputArea.reduced(Layout::padding));
+  delayComponent.setBounds(bottomArea.removeFromTop(bottomArea.proportionOfHeight(0.5f)).reduced(Layout::padding));
+  lfoComponent.setBounds(bottomArea.reduced(Layout::padding));
 }
 
 
