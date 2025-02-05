@@ -1,5 +1,8 @@
 #pragma once
 
+#include "lookandfeel/TransparentButtonLookAndFeel.h"
+#include "lookandfeel/TransparentComboBoxLookAndFeel.h"
+
 #include <juce_core/juce_core.h>
 #include <juce_gui_basics/juce_gui_basics.h>
 
@@ -18,7 +21,7 @@ public:
     presetList.setMouseCursor(juce::MouseCursor::PointingHandCursor);
     addAndMakeVisible(presetList);
     presetList.addListener(this);
-
+    presetList.setLookAndFeel(&transparentComboBoxLookAndFeel);
     updatePresetList();
   }
 
@@ -84,6 +87,7 @@ private:
   void configureButton(juce::Button &button, const juce::String &buttonText) {
     button.setButtonText(buttonText);
     button.setMouseCursor(juce::MouseCursor::PointingHandCursor);
+    button.setLookAndFeel(&transparentButtonLookAndFeel);
     addAndMakeVisible(button);
     button.addListener(this);
   }
@@ -103,6 +107,8 @@ private:
   Service::PresetManger presetManger;
   std::unique_ptr<juce::FileChooser> fileChooser;
 
+  TransparentComboBoxLookAndFeel transparentComboBoxLookAndFeel;
+  TransparentButtonLookAndFeel transparentButtonLookAndFeel;
   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PresetPanel)
 };
 }
