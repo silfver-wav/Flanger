@@ -23,10 +23,13 @@ public:
         std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(parameters, ParamIDs::mix, mix.slider);
     gainAttachment =
       std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(parameters, ParamIDs::gain, gain.slider);
+
+    setBufferedToImage(true);
   }
 
   void paint(juce::Graphics &g) override {
-    g.fillAll(Colours::primaryColour);
+    g.setColour(Colours::primaryColour);
+    g.fillRoundedRectangle(getLocalBounds().toFloat(), Layout::radius);
   }
 
   void resized() override {

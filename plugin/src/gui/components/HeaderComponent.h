@@ -21,7 +21,7 @@ public:
   }
 
   void paint (juce::Graphics& g) override {
-    g.fillAll(juce::Colours::black);
+    g.setColour(juce::Colours::black);
   }
 
   void resized() override {

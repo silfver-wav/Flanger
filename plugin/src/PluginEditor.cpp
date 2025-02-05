@@ -1,19 +1,17 @@
 #include "PluginEditor.h"
 #include "PluginProcessor.h"
-#include "utils/Colours.h"
+#include "utils/Utils.h"
 
 AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor(
     AudioPluginAudioProcessor &p)
     : AudioProcessorEditor(&p),
     processorRef(p),
-    headerComponent(p.parameters, p.getPresetManger()),
-    visualComponent(p.parameters, p.getGainMeter()),
+    topComponent(p.parameters, p.getPresetManger(), p.getGainMeter()),
     delayComponent(p.parameters),
     lfoComponent(p.parameters),
     outputComponent(p.parameters)
 {
-  addAndMakeVisible (headerComponent);
-  addAndMakeVisible(visualComponent);
+  addAndMakeVisible (topComponent);
   addAndMakeVisible(outputComponent);
   addAndMakeVisible(delayComponent);
   addAndMakeVisible(lfoComponent);
@@ -28,18 +26,14 @@ void AudioPluginAudioProcessorEditor::paint(juce::Graphics &g) {
 }
 
 void AudioPluginAudioProcessorEditor::resized() {
-  const int padding = 3;
   auto area = getLocalBounds();
-  auto topArea = area.removeFromTop(area.proportionOfHeight(0.5f));
-  auto bottomArea = area.reduced(padding);;
+  topComponent.setBounds(area.removeFromTop(area.proportionOfHeight(0.5f)));
 
-  headerComponent.setBounds(topArea.removeFromTop(area.proportionOfHeight(0.1f)));
-  visualComponent.setBounds(topArea);
-
+  auto bottomArea = area.reduced(Layout::padding);
   auto outputArea = bottomArea.removeFromRight(bottomArea.proportionOfWidth(0.2f));
-  outputComponent.setBounds(outputArea.reduced(padding));
-  delayComponent.setBounds(bottomArea.removeFromTop(bottomArea.proportionOfHeight(0.5f)).reduced(padding));
-  lfoComponent.setBounds(bottomArea.reduced(padding));
+  outputComponent.setBounds(outputArea.reduced(Layout::padding));
+  delayComponent.setBounds(bottomArea.removeFromTop(bottomArea.proportionOfHeight(0.5f)).reduced(Layout::padding));
+  lfoComponent.setBounds(bottomArea.reduced(Layout::padding));
 }
 
 

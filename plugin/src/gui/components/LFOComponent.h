@@ -43,6 +43,8 @@ public:
 
     parameters.addParameterListener(ParamIDs::lfoSyncMode, this);
     isSyncMode = static_cast<int>(*parameters.getRawParameterValue(ParamIDs::lfoSyncMode)) != 0;
+
+    setBufferedToImage(true);
   }
 
   ~LFOComponent() override {
@@ -50,7 +52,8 @@ public:
   }
 
   void paint(juce::Graphics &g) override {
-    g.fillAll(Colours::primaryColour);
+    g.setColour(Colours::primaryColour);
+    g.fillRoundedRectangle(getLocalBounds().toFloat(), Layout::radius);
   }
 
   void resized() override {

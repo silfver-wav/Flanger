@@ -1,10 +1,11 @@
 #pragma once
 
 #include "PluginProcessor.h"
-#include "gui/components/OutputComponent.h"
 #include "gui/components/DelayComponent.h"
 #include "gui/components/HeaderComponent.h"
 #include "gui/components/LFOComponent.h"
+#include "gui/components/OutputComponent.h"
+#include "gui/components/TopComponent.h"
 #include "gui/components/VisualComponent.h"
 
 #include <juce_graphics/juce_graphics.h>
@@ -20,8 +21,7 @@ public:
 
 private:
   AudioPluginAudioProcessor &processorRef;
-  Gui::HeaderComponent headerComponent;
-  Gui::VisualComponent visualComponent;
+  Gui::TopComponent topComponent;
   Gui::OutputComponent outputComponent;
   Gui::DelayComponent delayComponent;
   Gui::LFOComponent lfoComponent;

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../utils/Colours.h"
+#include "../../utils/Utils.h"
 #include "lookandfeel/KnobLookAndFeel.h"
 
 #include <juce_core/juce_core.h>
