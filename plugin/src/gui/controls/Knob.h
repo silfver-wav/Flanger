@@ -12,12 +12,6 @@ class Knob : public juce::Component {
 public:
   Knob(const std::string& name, const float start, const float end,
        const float interval, const float defaultValue) {
-    label.setText(name, juce::dontSendNotification);
-    label.setColour(juce::Label::textColourId, juce::Colours::black);
-    label.setSize(labelWidth, labelHeight);
-    label.setJustificationType(juce::Justification::centred);
-    addAndMakeVisible(label);
-
     slider.setSliderStyle(juce::Slider::SliderStyle::Rotary);
     slider.setSize(sliderWidth, sliderHeight);
     slider.setTextBoxStyle(juce::Slider::NoTextBox, false, 0, 0);
@@ -27,23 +21,25 @@ public:
 
     slider.setPopupDisplayEnabled(false, false, this);
     slider.setValue(defaultValue);
-    slider.setColour(juce::Slider::ColourIds::trackColourId, Colours::secondaryColour);
     slider.setDoubleClickReturnValue(true, defaultValue);
     addAndMakeVisible(slider);
+
+    label.setText(name, juce::dontSendNotification);
+    label.setColour(juce::Label::textColourId, juce::Colours::black);
+    label.setSize(labelWidth, labelHeight);
+    label.setJustificationType(juce::Justification::centred);
+    addAndMakeVisible(label);
   }
 
   void resized() override {
     auto area = getLocalBounds();
 
-    int sliderX = (area.getWidth() - sliderWidth) / 2; // Centered horizontally
-    int sliderY = labelHeight + 10;
-    slider.setBounds(sliderX, sliderY, sliderWidth, sliderHeight);
+    int sliderX = (area.getWidth() - sliderWidth) / 2;
+    slider.setBounds(sliderX, 0, sliderWidth, sliderHeight);
 
-    /*
     int labelX = (area.getWidth() - labelWidth) / 2;
-    int labelY = labelHeight + 10;
+    int labelY = sliderHeight;
     label.setBounds(labelX, labelY, labelWidth, labelHeight);
-    */
   }
 
   juce::Slider slider;
