@@ -34,11 +34,11 @@ private:
     3,
     3,
     1,
-    1056, // 2056
+    1556, // 2056
     256.f,
     24.f,
-    .3f,
-    1.f,
+    .2f,
+    0.9f,
     3.f,
     1.f,
     juce::Colours::blue.withAlpha(.1f),

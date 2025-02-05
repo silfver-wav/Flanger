@@ -42,7 +42,7 @@ public:
     else
       m_gain = m_gain + m_release * (m_magnitude - m_gain);
 
-    m_imageIdx = juce::jlimit(0, m_ImagesMax, int(m_gain * m_ImagesMax));
+    m_imageIdx = juce::jlimit(0, m_ImagesMax, static_cast<int>(m_gain * m_ImagesMax));
   }
 
   void draw(juce::Graphics & graphics, juce::Rectangle<float> bounds) {
@@ -87,12 +87,18 @@ public:
       return;
     }
 
-    Spirograph spirograph(m_images[0].getWidth());
+    auto imageSize = m_images[0].getWidth();
+    Spirograph spirograph(imageSize);
+
     for (auto i = 0; i < m_images.size(); ++i) {
       m_iRel = float(i) * m_ImagesMaxInv;
 
-      auto arms = int(opts.armsStart + m_iRel * (opts.armsEnd - opts.armsStart));
-      auto edges = int(opts.edgesStart + m_iRel * (opts.edgesEnd - opts.edgesStart));
+      auto arms = static_cast<int>(
+          static_cast<float>(opts.armsStart) +
+          m_iRel * static_cast<float>(opts.armsEnd - opts.armsStart));
+      auto edges = static_cast<int>(
+          static_cast<float>(opts.edgesStart) +
+          m_iRel * static_cast<float>(opts.edgesEnd - opts.edgesStart));
       auto twists = opts.twistsStart + m_iRel * (opts.twistEnd - opts.twistsStart);
       auto scale = opts.scaleStart + m_iRel * (opts.scaleEnd - opts.scaleStart);
       auto thickness = opts.thicknessStart + m_iRel * (opts.thicknessEnd - opts.thicknessStart);

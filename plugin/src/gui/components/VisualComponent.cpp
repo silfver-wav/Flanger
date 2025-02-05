@@ -6,7 +6,7 @@
 
 namespace Gui {
 VisualComponent::VisualComponent(juce::AudioProcessorValueTreeState &params, GainMeterSpirograph &gm) : parameters(params), gainMeter(gm) {
-  gainMeter.initImages(46, 400);
+  gainMeter.initImages(56, 600);
   gainMeter.setRelease(.5f);
   mixValue = getMix();
   updateGainMeter();
@@ -20,7 +20,7 @@ void VisualComponent::paint (juce::Graphics& g) {
   g.setImageResamplingQuality(juce::Graphics::lowResamplingQuality);
 
   auto area = getLocalBounds().toFloat();
-  float squareSize = area.getHeight() - 5.0f;
+  float squareSize = area.getHeight() - 50.0f;
   const auto gainMeterArea = juce::Rectangle(
       area.getCentreX() - (squareSize / 2.0f),
       area.getCentreY() - (squareSize / 2.0f),
@@ -35,7 +35,6 @@ void VisualComponent::timerCallback() {
   if (gainMeter.shouldRepaint()) {
     const float newMix = getMix();
     if (std::abs(mixValue - newMix) > 0.1f) {
-      DBG("Here i am");
       mixValue = newMix;
       updateGainMeter();
     }
