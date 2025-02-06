@@ -35,7 +35,7 @@ class PowerButtonLookAndFeel : public juce::LookAndFeel_V4 {
 
     g.setColour(colour);
     g.strokePath(powerButton, pst);
-    g.drawEllipse(r, 1.6f);
+    g.drawEllipse(r, 1.5f);
   }
 
 };

@@ -22,7 +22,7 @@ public:
     path.lineTo ((float) arrowZone.getRight() - 3.0f, (float) arrowZone.getCentreY() - 2.0f);
 
     g.setColour (juce::Colours::white);
-    g.setFont (18.0f);
+    g.setFont (8.0f);
     g.strokePath (path, juce::PathStrokeType (2.0f));
   }
 

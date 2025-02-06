@@ -34,7 +34,7 @@ public:
 
     auto powerWidth = area.proportionOfWidth(0.09f);
     auto rightButtonWidth = area.proportionOfWidth(0.1f);
-    auto gapWidth = area.proportionOfWidth(0.20f);
+    auto gapWidth = area.proportionOfWidth(0.09f);
     auto presetWidth = area.getWidth() - powerWidth - rightButtonWidth - (2 * gapWidth);
 
     auto powerButtonArea = area.removeFromLeft(powerWidth);
@@ -46,8 +46,11 @@ public:
     area.removeFromLeft(gapWidth);
 
     auto presetArea = area.removeFromLeft(presetWidth);
-    presetArea.translate(0, 5);
-    presetPanel.setBounds(presetArea);
+    int presetPanelWidth = presetArea.getWidth();
+    int presetPanelHeight = presetArea.getHeight();
+    // int presetPanelX = (presetArea.getWidth() - presetPanelWidth) / 2;
+    int presetPanelY = (presetArea.getHeight() - presetPanelHeight) / 2;
+    presetPanel.setBounds(area.getWidth(), presetPanelY, presetPanelWidth, presetPanelHeight);
     area.removeFromLeft(gapWidth);
     textButton.setBounds(area.removeFromLeft(rightButtonWidth));
   }

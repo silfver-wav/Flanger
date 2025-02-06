@@ -17,7 +17,7 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor(
   addAndMakeVisible(lfoComponent);
 
   setResizable(true, true);
-  setResizeLimits(600, 400, 2000, 1600);
+  setResizeLimits(450, 450, 2000, 1600);
   // getConstrainer()->setFixedAspectRatio(2.0f);
   setSize(478, 470);
 }
