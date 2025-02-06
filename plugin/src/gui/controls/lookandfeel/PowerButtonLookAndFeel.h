@@ -14,9 +14,7 @@ class PowerButtonLookAndFeel : public juce::LookAndFeel_V4 {
 
     auto size = juce::jmin(bounds.getWidth(), bounds.getHeight()) - 6;
     auto r = bounds.withSizeKeepingCentre(size, size).toFloat();
-
     auto ang = 30.f;
-
     size -= 9;
 
     powerButton.addCentredArc(r.getCentreX(),
@@ -31,13 +29,13 @@ class PowerButtonLookAndFeel : public juce::LookAndFeel_V4 {
     powerButton.startNewSubPath(r.getCentreX(), r.getY());
     powerButton.lineTo(r.getCentre());
 
-    juce::PathStrokeType pst(2.0f, juce::PathStrokeType::curved);
+    juce::PathStrokeType pst(1.2f, juce::PathStrokeType::curved);
 
     auto colour = toggleButton.getToggleState() ? toggleButton.findColour(juce::ToggleButton::tickColourId) : juce::Colours::dimgrey;
 
     g.setColour(colour);
     g.strokePath(powerButton, pst);
-    g.drawEllipse(r, 2);
+    g.drawEllipse(r, 1.6f);
   }
 
 };

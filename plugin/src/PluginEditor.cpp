@@ -19,7 +19,7 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor(
   setResizable(true, true);
   setResizeLimits(600, 400, 2000, 1600);
   // getConstrainer()->setFixedAspectRatio(2.0f);
-  setSize(1000, 800);
+  setSize(478, 470);
 }
 
 AudioPluginAudioProcessorEditor::~AudioPluginAudioProcessorEditor() {}

@@ -38,11 +38,11 @@ public:
     auto bounds = container;
 
     saveButton.setBounds(
-        bounds.removeFromLeft(container.proportionOfWidth(0.2f)));
+        bounds.removeFromLeft(container.proportionOfWidth(0.15f)));
     previousPresetButton.setBounds(
         bounds.removeFromLeft(container.proportionOfWidth(0.1f)));
     presetList.setBounds(
-        bounds.removeFromLeft(container.proportionOfWidth(0.4f)));
+        bounds.removeFromLeft(container.proportionOfWidth(0.5f)));
     nextPresetButton.setBounds(
         bounds.removeFromLeft(container.proportionOfWidth(0.1f)));
     deleteButton.setBounds(bounds);
@@ -85,8 +85,6 @@ private:
   }
 
   void configureButton(juce::Button &button, const juce::String &buttonText) {
-    button.setSize(60, 60);
-    button.
     button.setButtonText(buttonText);
     button.setMouseCursor(juce::MouseCursor::PointingHandCursor);
     button.setLookAndFeel(&transparentButtonLookAndFeel);

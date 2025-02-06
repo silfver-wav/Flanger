@@ -30,7 +30,7 @@ public:
 
   void resized() override {
     auto area = getLocalBounds();
-    headerComponent.setBounds(area.removeFromTop(area.proportionOfHeight(0.11f)));
+    headerComponent.setBounds(area.removeFromTop(area.proportionOfHeight(0.16f)));
     visualComponent.setBounds(area);
   }
 

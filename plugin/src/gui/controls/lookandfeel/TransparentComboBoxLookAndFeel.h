@@ -21,7 +21,8 @@ public:
     path.lineTo ((float) arrowZone.getCentreX(), (float) arrowZone.getCentreY() + 3.0f);
     path.lineTo ((float) arrowZone.getRight() - 3.0f, (float) arrowZone.getCentreY() - 2.0f);
 
-    g.setColour (juce::Colours::white); //.withAlpha ((box.isEnabled() ? 0.9f : 0.2f)));
+    g.setColour (juce::Colours::white);
+    g.setFont (18.0f);
     g.strokePath (path, juce::PathStrokeType (2.0f));
   }
 
@@ -33,7 +34,7 @@ public:
 
     auto colour = isHighlighted ? juce::Colours::lightgrey : juce::Colours::white;
     g.setColour(colour);
-    g.setFont (14.0f);
+    g.setFont (17.0f);
     g.drawText (text, area.reduced(10, 0), juce::Justification::centredLeft, true);
   }
 

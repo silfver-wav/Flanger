@@ -28,19 +28,28 @@ public:
   }
 
   void resized() override {
-    auto area = getLocalBounds().reduced(5);
+    auto area = getLocalBounds();
 
-    // Define proportions for power button, right button, and spacing
-    auto powerWidth = area.proportionOfWidth(0.05f);
-    auto rightButtonWidth = area.proportionOfWidth(0.05f);
-    auto gapWidth = area.proportionOfWidth(0.25f); // Adjust as needed
+    area.removeFromTop(area.getHeight() * 0.1f);
+
+    auto powerWidth = area.proportionOfWidth(0.09f);
+    auto rightButtonWidth = area.proportionOfWidth(0.1f);
+    auto gapWidth = area.proportionOfWidth(0.20f);
     auto presetWidth = area.getWidth() - powerWidth - rightButtonWidth - (2 * gapWidth);
 
-    powerButton.setBounds(area.removeFromLeft(powerWidth));  // Left: Power button
-    area.removeFromLeft(gapWidth); // Left spacing
-    presetPanel.setBounds(area.removeFromLeft(presetWidth)); // Center: Preset panel
-    area.removeFromLeft(gapWidth); // Right spacing
-    textButton.setBounds(area.removeFromLeft(rightButtonWidth)); // Right: New button
+    auto powerButtonArea = area.removeFromLeft(powerWidth);
+    int buttonWidth = powerButtonArea.getWidth() - 7, buttonHeight = powerButtonArea.getHeight() - 7;
+    int buttonX = (powerButtonArea.getWidth() - buttonWidth) / 2;
+    int buttonY = (powerButtonArea.getHeight() - buttonHeight) / 2;
+    powerButton.setBounds(buttonX, buttonY + 2, buttonWidth, buttonHeight);
+
+    area.removeFromLeft(gapWidth);
+
+    auto presetArea = area.removeFromLeft(presetWidth);
+    presetArea.translate(0, 5);
+    presetPanel.setBounds(presetArea);
+    area.removeFromLeft(gapWidth);
+    textButton.setBounds(area.removeFromLeft(rightButtonWidth));
   }
 
 
