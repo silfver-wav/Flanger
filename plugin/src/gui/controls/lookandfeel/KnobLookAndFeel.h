@@ -30,7 +30,10 @@ public:
     // Draw the value in the center of the knob
     g.setColour(juce::Colours::black);
     g.setFont(radius * 0.24f); // Font size relative to the radius
-    g.drawSingleLineText(juce::String(slider.getValue()), static_cast<int>(centreX), static_cast<int>(centreY + 10.0f),
+
+    juce::String valueText = slider.getTextFromValue(slider.getValue());
+    g.drawSingleLineText(valueText, static_cast<int>(centreX),
+                         static_cast<int>(centreY), // + 10.0f),
                          juce::Justification::centred);
   }
 
