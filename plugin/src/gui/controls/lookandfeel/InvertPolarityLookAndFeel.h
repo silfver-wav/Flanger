@@ -14,16 +14,12 @@ class InvertPolarityLookAndFeel : public juce::LookAndFeel_V4 {
 
     auto size = juce::jmin(bounds.getWidth(), bounds.getHeight()) - 6;
     auto r = bounds.withSizeKeepingCentre(size, size).toFloat();
-
-    auto ang = 30.f;
-
     size -= 9;
 
     button.startNewSubPath(r.getX(), r.getY() + r.getHeight());
     button.lineTo(r.getX() + r.getWidth(), r.getY());
 
     juce::PathStrokeType pst(2.0f, juce::PathStrokeType::curved);
-
     auto colour = toggleButton.getToggleState() ? juce::Colours::black : juce::Colours::dimgrey;
 
     g.setColour(colour);

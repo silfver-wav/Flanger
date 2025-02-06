@@ -7,15 +7,18 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor(
     : AudioProcessorEditor(&p),
     processorRef(p),
     topComponent(p.parameters, p.getPresetManger(), p.getGainMeter()),
+    outputComponent(p.parameters),
     delayComponent(p.parameters),
-    lfoComponent(p.parameters),
-    outputComponent(p.parameters)
+    lfoComponent(p.parameters)
 {
   addAndMakeVisible (topComponent);
   addAndMakeVisible(outputComponent);
   addAndMakeVisible(delayComponent);
   addAndMakeVisible(lfoComponent);
 
+  setResizable(true, true);
+  setResizeLimits(600, 400, 2000, 1600);
+  // getConstrainer()->setFixedAspectRatio(2.0f);
   setSize(1000, 800);
 }
 

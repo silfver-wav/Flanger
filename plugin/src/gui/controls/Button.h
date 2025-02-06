@@ -11,13 +11,6 @@ namespace Gui {
 class Button : public juce::Component {
 public:
   Button(const std::string& name, auto id) {
-    label.setText(name, juce::dontSendNotification);
-    label.setColour(juce::Label::textColourId, juce::Colours::black);
-    label.setSize(labelWidth, labelHeight);
-    label.setJustificationType(juce::Justification::centred);
-    addAndMakeVisible(label);
-
-    button.setSize(buttonWidth, buttonHeight);
     // TODO: make a better solution for this lookAndFeel application
     if (id == ParamIDs::invertPolarity || id == ParamIDs::invertWet) {
       button.setLookAndFeel(&invertPolarityLookAndFeel);
@@ -25,25 +18,30 @@ public:
       button.setLookAndFeel(&toggleButtonLookAndFeel);
     }
     addAndMakeVisible(button);
+
+    label.setText(name, juce::dontSendNotification);
+    label.setColour(juce::Label::textColourId, juce::Colours::black);
+    label.setJustificationType(juce::Justification::centred);
+    addAndMakeVisible(label);
   }
 
   void resized() override {
     auto area = getLocalBounds();
 
-    int labelX = (area.getWidth() - labelWidth) / 2;
-    int labelY = labelHeight + 10; // Top of the area
-    label.setBounds(labelX, labelY, labelWidth, labelHeight);
-
-    int buttonX = (area.getWidth() - buttonWidth) / 2; // Centered horizontally
-    int buttonY = labelY + labelHeight + padding;
+    int buttonWidth = 35, buttonHeight = 35;
+    int buttonX = (area.getWidth() - buttonWidth) / 2;
+    int buttonY = (area.getHeight() - buttonHeight) / 2;
     button.setBounds(buttonX, buttonY, buttonWidth, buttonHeight);
+
+    int labelWidth = area.getWidth() - 16, labelHeight = 16;
+    int labelX = (area.getWidth() - labelWidth) / 2;
+    int labelY = area.getHeight() - labelHeight;
+    label.setBounds(labelX, labelY, labelWidth, labelHeight);
   }
 
   juce::ToggleButton button;
 private:
   juce::Label label;
-  int labelWidth = 150, labelHeight = 16;
-  int buttonWidth = 25, buttonHeight = 25;
   int padding = 60;
 
   InvertPolarityLookAndFeel invertPolarityLookAndFeel;

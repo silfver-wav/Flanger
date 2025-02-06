@@ -9,7 +9,7 @@ class ToggleButtonLookAndFeel : public juce::LookAndFeel_V4 {
                         juce::ToggleButton& toggleButton,
                         bool shouldDrawButtonAsHighlighted,
                         bool shouldDrawButtonAsDown) override {
-    juce::Path powerButton;
+    juce::Path button;
     auto bounds = toggleButton.getLocalBounds();
 
     auto size = juce::jmin(bounds.getWidth(), bounds.getHeight()) - 6;
@@ -17,7 +17,7 @@ class ToggleButtonLookAndFeel : public juce::LookAndFeel_V4 {
     auto ang = 0.f;
     size -= 9;
 
-    powerButton.addCentredArc(r.getCentreX(),
+    button.addCentredArc(r.getCentreX(),
                                 r.getCentreY(),
                                 size * 0.5f,
                                 size * 0.5f,
@@ -30,7 +30,7 @@ class ToggleButtonLookAndFeel : public juce::LookAndFeel_V4 {
     auto colour = toggleButton.getToggleState() ? juce::Colours::black : juce::Colours::dimgrey;
 
     g.setColour(colour);
-    g.strokePath(powerButton, pst);
+    g.strokePath(button, pst);
     g.drawEllipse(r, 2);
   }
 
