@@ -46,11 +46,14 @@ public:
   void resized() override {
     auto area = getLocalBounds();
     group.setBounds(area.reduced(2));
-    auto knobWidth = getLocalBounds().getWidth() / 4;
-    delay.setBounds(area.removeFromLeft(knobWidth).reduced(10));
-    invWet.setBounds(area.removeFromLeft(knobWidth).reduced(10));
-    feedback.setBounds(area.removeFromLeft(knobWidth).reduced(10));
-    invPolarity.setBounds(area.removeFromLeft(knobWidth).reduced(10));
+
+    auto componentWidth = area.proportionOfWidth(0.25f);
+    auto componentArea = area;
+
+    delay.setBounds(componentArea.removeFromLeft(componentWidth).reduced(10));
+    invWet.setBounds(componentArea.removeFromLeft(componentWidth).reduced(10));
+    feedback.setBounds(componentArea.removeFromLeft(componentWidth).reduced(10));
+    invPolarity.setBounds(componentArea.removeFromLeft(componentWidth).reduced(10));
   }
 
 private:

@@ -12,45 +12,39 @@ class Knob : public juce::Component {
 public:
   Knob(const std::string& name, const float start, const float end,
        const float interval, const float defaultValue) {
-    label.setText(name, juce::dontSendNotification);
-    label.setColour(juce::Label::textColourId, juce::Colours::black);
-    label.setSize(labelWidth, labelHeight);
-    label.setJustificationType(juce::Justification::centred);
-    addAndMakeVisible(label);
-
     slider.setSliderStyle(juce::Slider::SliderStyle::Rotary);
-    slider.setSize(sliderWidth, sliderHeight);
-    slider.setTextBoxStyle(juce::Slider::TextBoxBelow, false, textBoxWidth, textBoxHeight);
+    slider.setTextBoxStyle(juce::Slider::NoTextBox, false, 0, 0);
     slider.setLookAndFeel(&knobLookAndFeel);
 
     slider.setRange(start, end, interval);
 
     slider.setPopupDisplayEnabled(false, false, this);
     slider.setValue(defaultValue);
-    slider.setColour(juce::Slider::ColourIds::trackColourId, Colours::secondaryColour);
     slider.setDoubleClickReturnValue(true, defaultValue);
     addAndMakeVisible(slider);
+
+    label.setText(name, juce::dontSendNotification);
+    label.setColour(juce::Label::textColourId, juce::Colours::black);
+    label.setJustificationType(juce::Justification::centred);
+    addAndMakeVisible(label);
   }
 
   void resized() override {
     auto area = getLocalBounds();
 
-    int labelX = (area.getWidth() - labelWidth) / 2;
-    int labelY = labelHeight + 10;
-    label.setBounds(labelX, labelY, labelWidth, labelHeight);
+    int sliderWidth = area.getWidth() - 16, sliderHeight = area.getHeight() - 16;
+    int sliderX = (area.getWidth() - sliderWidth) / 2;
+    slider.setBounds(sliderX, 0, sliderWidth, sliderHeight);
 
-    int sliderX = (area.getWidth() - sliderWidth) / 2; // Centered horizontally
-    int sliderY = labelY + labelHeight + 10;
-    slider.setBounds(sliderX, sliderY, sliderWidth, sliderHeight);
+    int labelWidth = area.getWidth() - 16, labelHeight = 16;
+    int labelX = (area.getWidth() - labelWidth) / 2;
+    int labelY = area.getHeight() - labelHeight;
+    label.setBounds(labelX, labelY, labelWidth, labelHeight);
   }
 
   juce::Slider slider;
 private:
   juce::Label label;
-  int labelWidth = 150, labelHeight = 16;
-  int textBoxWidth = 150, textBoxHeight = 14;
-  int sliderWidth = 150, sliderHeight = 150;
-
   KnobLookAndFeel knobLookAndFeel;
 
   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(Knob)

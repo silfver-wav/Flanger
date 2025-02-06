@@ -15,7 +15,7 @@ public:
       : parameters(parameters),
         group("LFO"),
         lfoFreq("Frequency", ParamRange::lfoFreqStart, ParamRange::lfoFreqEnd, ParamRange::lfoFreqInterval, ParamRange::lfoFreqDefault),
-        lfoSyncMode("Sync to BPM", ParamIDs::lfoSyncMode),
+        lfoSyncMode("Sync", ParamIDs::lfoSyncMode),
         lfoRate("Rate", ParamRange::lfoRates),
         lfoDepth("Depth", ParamRange::lfoDepthStart, ParamRange::lfoDepthEnd, ParamRange::lfoDepthInterval, ParamRange::lfoDepthDefault),
         waveform("Waveform", ParamRange::waveformChoices),
@@ -60,23 +60,26 @@ public:
     auto area = getLocalBounds();
     group.setBounds(area.reduced(2));
 
-    auto knobWidth = getLocalBounds().getWidth() / 5;
+    auto componentWidthKnob = area.proportionOfWidth(0.22f); // 0.26f
+    auto componentWidthButton = area.proportionOfWidth(0.17f); // 0.11f
+    auto componentArea = area;
 
     if (isSyncMode) {
-      lfoRate.setBounds(area.removeFromLeft(knobWidth).reduced(10));
+      lfoRate.setBounds(componentArea.removeFromLeft(componentWidthKnob).reduced(10));
       lfoFreq.setVisible(false);
       lfoRate.setVisible(true);
     } else {
-      lfoFreq.setBounds(area.removeFromLeft(knobWidth).reduced(10));
+      lfoFreq.setBounds(componentArea.removeFromLeft(componentWidthKnob).reduced(10));
       lfoFreq.setVisible(true);
       lfoRate.setVisible(false);
     }
 
-    lfoSyncMode.setBounds(area.removeFromLeft(knobWidth).reduced(10));
-    lfoDepth.setBounds(area.removeFromLeft(knobWidth).reduced(10));
-    waveform.setBounds(area.removeFromLeft(knobWidth).reduced(10));
-    stereo.setBounds(area.removeFromLeft(knobWidth).reduced(10));
+    lfoSyncMode.setBounds(componentArea.removeFromLeft(componentWidthButton).reduced(10));
+    lfoDepth.setBounds(componentArea.removeFromLeft(componentWidthKnob).reduced(10));
+    waveform.setBounds(componentArea.removeFromLeft(componentWidthButton).reduced(10));
+    stereo.setBounds(componentArea.removeFromLeft(componentWidthKnob).reduced(10));
   }
+
 
 private:
   void parameterChanged(const juce::String& parameterID, float newValue) override {
