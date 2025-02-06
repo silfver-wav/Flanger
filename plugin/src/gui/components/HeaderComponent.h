@@ -18,6 +18,9 @@ public:
 
     powerButtonAttachment =
     std::make_unique<juce::AudioProcessorValueTreeState::ButtonAttachment>(parameters, ParamIDs::power, powerButton);
+
+    textButton.setButtonText("Flanger");
+    addAndMakeVisible(textButton);
   }
 
   void paint (juce::Graphics& g) override {
@@ -25,18 +28,28 @@ public:
   }
 
   void resized() override {
-    auto bounds = getLocalBounds();
-    bounds.removeFromLeft(proportionOfWidth(0.01f));
-    // bounds.removeFromTop(proportionOfHeight(0.05f));
-    // bounds.removeFromBottom(proportionOfHeight(0.05f));
-    powerButton.setBounds(bounds.removeFromLeft(bounds.proportionOfWidth(0.1f)).reduced(2));
-    presetPanel.setBounds(bounds.removeFromLeft(bounds.proportionOfWidth(0.9f)));
+    auto area = getLocalBounds().reduced(5);
+
+    // Define proportions for power button, right button, and spacing
+    auto powerWidth = area.proportionOfWidth(0.05f);
+    auto rightButtonWidth = area.proportionOfWidth(0.05f);
+    auto gapWidth = area.proportionOfWidth(0.25f); // Adjust as needed
+    auto presetWidth = area.getWidth() - powerWidth - rightButtonWidth - (2 * gapWidth);
+
+    powerButton.setBounds(area.removeFromLeft(powerWidth));  // Left: Power button
+    area.removeFromLeft(gapWidth); // Left spacing
+    presetPanel.setBounds(area.removeFromLeft(presetWidth)); // Center: Preset panel
+    area.removeFromLeft(gapWidth); // Right spacing
+    textButton.setBounds(area.removeFromLeft(rightButtonWidth)); // Right: New button
   }
+
 
 private:
   juce::ToggleButton powerButton;
   PresetPanel presetPanel;
+  juce::TextButton textButton;
   std::unique_ptr<juce::AudioProcessorValueTreeState::ButtonAttachment> powerButtonAttachment;
+
 
   PowerButtonLookAndFeel powerButtonLookAndFeel;
   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(HeaderComponent)
