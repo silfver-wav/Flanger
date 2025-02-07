@@ -4,28 +4,7 @@
 
 class TransparentComboBoxLookAndFeel : public juce::LookAndFeel_V4 {
 public:
-  void drawComboBox (juce::Graphics &g, int width, int height, bool isButtonDown,
-                     int buttonX, int buttonY, int buttonW, int buttonH, juce::ComboBox &box) override {
-    auto cornerSize = box.findParentComponentOfClass<juce::ChoicePropertyComponent>() != nullptr ? 0.0f : 3.0f;
-    juce::Rectangle<int> boxBounds (0, 0, width, height);
-
-    g.setColour (juce::Colours::transparentBlack);
-    g.fillRoundedRectangle (boxBounds.toFloat(), cornerSize);
-
-    g.setColour (juce::Colours::transparentBlack);
-    g.drawRoundedRectangle (boxBounds.toFloat().reduced (0.5f, 0.5f), cornerSize, 1.0f);
-
-    juce::Rectangle<int> arrowZone (width - 30, 0, 20, height);
-    juce::Path path;
-    path.startNewSubPath ((float) arrowZone.getX() + 3.0f, (float) arrowZone.getCentreY() - 2.0f);
-    path.lineTo ((float) arrowZone.getCentreX(), (float) arrowZone.getCentreY() + 3.0f);
-    path.lineTo ((float) arrowZone.getRight() - 3.0f, (float) arrowZone.getCentreY() - 2.0f);
-
-    g.setColour (juce::Colours::white);
-    g.setFont (8.0f);
-    g.strokePath (path, juce::PathStrokeType (2.0f));
-  }
-
+  /*
   void drawPopupMenuItem (juce::Graphics &g, const juce::Rectangle<int> &area,
                           bool isSeparator, bool isActive, bool isHighlighted, bool isTicked,
                           bool hasSubMenu, const juce::String &text, const juce::String &shortcutKey,
@@ -42,18 +21,21 @@ public:
     g.setColour(juce::Colours::black);
     g.fillRect(0, 0, width, height);
   }
-
+  */
   void drawComboBoxTextWhenNothingSelected (juce::Graphics& g, juce::ComboBox& box, juce::Label& label) override
   {
     g.setColour (juce::Colours::white);
 
     auto font = label.getLookAndFeel().getLabelFont (label);
+    g.setFont (font); // Ensure font size matches selected items
 
-    g.setFont (font);
-
+    // Get the text area with proper vertical centering
     auto textArea = getLabelBorderSize (label).subtractedFrom (label.getLocalBounds());
 
-    g.drawFittedText (box.getTextWhenNothingSelected(), textArea, label.getJustificationType(),
+    // Adjust vertical alignment (move text slightly down)
+    textArea.translate(0, 1); // Moves text 2 pixels down
+
+    g.drawFittedText (box.getTextWhenNothingSelected(), textArea, juce::Justification::centredLeft,
                       juce::jmax (1, (int) ((float) textArea.getHeight() / font.getHeight())),
                       label.getMinimumHorizontalScale());
   }

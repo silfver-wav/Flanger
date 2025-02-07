@@ -22,6 +22,12 @@ public:
     addAndMakeVisible(presetList);
     presetList.addListener(this);
     presetList.setLookAndFeel(&transparentComboBoxLookAndFeel);
+    presetList.setColour(juce::ComboBox::backgroundColourId, juce::Colours::transparentBlack);
+    presetList.setColour(juce::ComboBox::outlineColourId, juce::Colours::transparentBlack);
+    presetList.setColour(juce::ComboBox::textColourId, juce::Colours::white);
+    presetList.setColour(juce::ComboBox::arrowColourId, juce::Colours::white);
+    presetList.setColour(juce::ComboBox::buttonColourId, juce::Colours::white);
+
     updatePresetList();
   }
 
@@ -34,8 +40,10 @@ public:
   }
 
   void resized() override {
-    const auto container = getLocalBounds(); // .reduced(2);
+    const auto container = getLocalBounds();
     auto bounds = container;
+    bounds.removeFromTop(proportionOfHeight(0.2f));
+    bounds.removeFromBottom(proportionOfHeight(0.1f));
 
     saveButton.setBounds(
         bounds.removeFromLeft(container.proportionOfWidth(0.15f)));
@@ -87,7 +95,9 @@ private:
   void configureButton(juce::Button &button, const juce::String &buttonText) {
     button.setButtonText(buttonText);
     button.setMouseCursor(juce::MouseCursor::PointingHandCursor);
-    button.setLookAndFeel(&transparentButtonLookAndFeel);
+    button.setColour(juce::TextButton::buttonColourId, juce::Colours::transparentBlack);
+    button.setColour(juce::TextButton::textColourOnId, juce::Colours::white);
+    button.setColour(juce::TextButton::textColourOffId, juce::Colours::white);
     addAndMakeVisible(button);
     button.addListener(this);
   }
