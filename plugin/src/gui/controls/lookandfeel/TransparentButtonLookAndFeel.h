@@ -5,10 +5,16 @@
 namespace Gui {
 class TransparentButtonLookAndFeel : public juce::LookAndFeel_V4 {
 
+  void drawButtonBackground(juce::Graphics &g, juce::Button &button,
+                            const juce::Colour &backgroundColour,
+                            bool isMouseOverButton, bool isButtonDown) override {
+    // Transparent background
+  }
+
   void drawButtonText(juce::Graphics &g, juce::TextButton &button,
                       bool isMouseOverButton, bool isButtonDown) override {
     g.setColour(juce::Colours::white);
-    juce::Font font (getTextButtonFont (button, button.getHeight()));
+    juce::Font font = juce::FontOptions("Arial", 12.0f, juce::Font::plain);
     g.setFont (font);
     g.drawText(button.getButtonText(), button.getLocalBounds(),
                juce::Justification::centred, true);
