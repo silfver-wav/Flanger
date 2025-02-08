@@ -29,11 +29,11 @@ public:
 
     // Draw the value in the center of the knob
     g.setColour(juce::Colours::black);
-    g.setFont(radius * 0.42f);
+    g.setFont(radius * 0.40f);
 
     juce::String valueText = slider.getTextFromValue(slider.getValue());
     g.drawSingleLineText(valueText, static_cast<int>(centreX),
-                         static_cast<int>(centreY) + 4.0f,
+                         static_cast<int>(centreY) + 5.0f,
                          juce::Justification::centred);
   }
 
