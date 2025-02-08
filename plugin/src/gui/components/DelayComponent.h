@@ -45,15 +45,18 @@ public:
 
   void resized() override {
     auto area = getLocalBounds();
-    group.setBounds(area.reduced(2));
+    group.setBounds(-10, 1, area.getWidth(), area.getHeight());
+
+    int topPadding = 5;
+    area = area.withTrimmedTop(topPadding);
 
     auto componentWidth = area.proportionOfWidth(0.25f);
     auto componentArea = area;
 
-    delay.setBounds(componentArea.removeFromLeft(componentWidth).reduced(10));
-    invWet.setBounds(componentArea.removeFromLeft(componentWidth).reduced(10));
-    feedback.setBounds(componentArea.removeFromLeft(componentWidth).reduced(10));
-    invPolarity.setBounds(componentArea.removeFromLeft(componentWidth).reduced(10));
+    delay.setBounds(componentArea.removeFromLeft(componentWidth).reduced(5));
+    invWet.setBounds(componentArea.removeFromLeft(componentWidth).reduced(5));
+    feedback.setBounds(componentArea.removeFromLeft(componentWidth).reduced(5));
+    invPolarity.setBounds(componentArea.removeFromLeft(componentWidth).reduced(5));
   }
 
 private:

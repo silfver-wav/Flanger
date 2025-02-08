@@ -58,26 +58,29 @@ public:
 
   void resized() override {
     auto area = getLocalBounds();
-    group.setBounds(area.reduced(2));
+    group.setBounds(-10, 1, area.getWidth(), area.getHeight());
 
-    auto componentWidthKnob = area.proportionOfWidth(0.22f); // 0.26f
-    auto componentWidthButton = area.proportionOfWidth(0.17f); // 0.11f
+    int topPadding = 5;
+    area = area.withTrimmedTop(topPadding);
+
+    auto componentWidthKnob = area.proportionOfWidth(0.26f); // 0.22f
+    auto componentWidthButton = area.proportionOfWidth(0.11f); // 0.17f
     auto componentArea = area;
 
     if (isSyncMode) {
-      lfoRate.setBounds(componentArea.removeFromLeft(componentWidthKnob).reduced(10));
+      lfoRate.setBounds(componentArea.removeFromLeft(componentWidthKnob).reduced(5));
       lfoFreq.setVisible(false);
       lfoRate.setVisible(true);
     } else {
-      lfoFreq.setBounds(componentArea.removeFromLeft(componentWidthKnob).reduced(10));
+      lfoFreq.setBounds(componentArea.removeFromLeft(componentWidthKnob).reduced(5));
       lfoFreq.setVisible(true);
       lfoRate.setVisible(false);
     }
 
-    lfoSyncMode.setBounds(componentArea.removeFromLeft(componentWidthButton).reduced(10));
-    lfoDepth.setBounds(componentArea.removeFromLeft(componentWidthKnob).reduced(10));
-    waveform.setBounds(componentArea.removeFromLeft(componentWidthButton).reduced(10));
-    stereo.setBounds(componentArea.removeFromLeft(componentWidthKnob).reduced(10));
+    lfoSyncMode.setBounds(componentArea.removeFromLeft(componentWidthButton).reduced(5));
+    lfoDepth.setBounds(componentArea.removeFromLeft(componentWidthKnob).reduced(5));
+    waveform.setBounds(componentArea.removeFromLeft(componentWidthButton).reduced(5));
+    stereo.setBounds(componentArea.removeFromLeft(componentWidthKnob).reduced(5));
   }
 
 

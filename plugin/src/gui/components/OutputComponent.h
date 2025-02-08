@@ -34,11 +34,16 @@ public:
 
   void resized() override {
     auto area = getLocalBounds();
-    group.setBounds(area.reduced(2));
+    group.setBounds(-10, 1, area.getWidth(), area.getHeight());
 
-    auto knobHeight = getLocalBounds().getHeight() / 2;
-    mix.setBounds(area.removeFromTop(knobHeight).reduced(10));
-    gain.setBounds(area.reduced(10));
+    int topPadding = 5;
+    area = area.withTrimmedTop(topPadding);
+
+    auto componentHeight = area.proportionOfHeight(0.5f);
+    auto componentArea = area;
+
+    mix.setBounds(componentArea.removeFromTop(componentHeight).reduced(5));
+    gain.setBounds(componentArea.removeFromTop(componentHeight).reduced(5));
   }
 
 private:

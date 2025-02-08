@@ -29,11 +29,11 @@ public:
 
     // Draw the value in the center of the knob
     g.setColour(juce::Colours::black);
-    g.setFont(radius * 0.24f); // Font size relative to the radius
+    g.setFont(radius * 0.42f);
 
     juce::String valueText = slider.getTextFromValue(slider.getValue());
     g.drawSingleLineText(valueText, static_cast<int>(centreX),
-                         static_cast<int>(centreY), // + 10.0f),
+                         static_cast<int>(centreY) + 4.0f,
                          juce::Justification::centred);
   }
 
@@ -45,7 +45,7 @@ public:
                       rotaryEndAngle, true);
 
     g.setColour(colour);
-    g.strokePath(arc, juce::PathStrokeType(4.f, juce::PathStrokeType::curved,
+    g.strokePath(arc, juce::PathStrokeType(1.5f, juce::PathStrokeType::curved,
                                            juce::PathStrokeType::rounded));
   }
 };

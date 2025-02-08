@@ -30,15 +30,15 @@ public:
   }
 
   void resized() override {
-    auto area = getLocalBounds();
+    auto area = getLocalBounds().toFloat();
 
-    int sliderWidth = area.getWidth() - 16, sliderHeight = area.getHeight() - 16;
+    int sliderWidth = (int) area.getWidth() * 0.9f, sliderHeight = (int) area.getHeight() * 0.9f;
     int sliderX = (area.getWidth() - sliderWidth) / 2;
     slider.setBounds(sliderX, 0, sliderWidth, sliderHeight);
 
-    int labelWidth = area.getWidth() - 16, labelHeight = 16;
+    int labelWidth = area.getWidth() * 0.9f, labelHeight = area.getHeight() * 0.25f;
     int labelX = (area.getWidth() - labelWidth) / 2;
-    int labelY = area.getHeight() - labelHeight;
+    int labelY = area.getHeight() * 0.75f;
     label.setBounds(labelX, labelY, labelWidth, labelHeight);
   }
 

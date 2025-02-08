@@ -33,9 +33,9 @@ public:
     int buttonY = (area.getHeight() - buttonHeight) / 2;
     button.setBounds(buttonX, buttonY, buttonWidth, buttonHeight);
 
-    int labelWidth = area.getWidth() - 16, labelHeight = 16;
+    int labelWidth = area.getWidth() * 0.9f, labelHeight = area.getHeight() * 0.25f;
     int labelX = (area.getWidth() - labelWidth) / 2;
-    int labelY = area.getHeight() - labelHeight;
+    int labelY = area.getHeight() * 0.75f;
     label.setBounds(labelX, labelY, labelWidth, labelHeight);
   }
 

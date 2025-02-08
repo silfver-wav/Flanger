@@ -7,6 +7,6 @@ namespace Colours {
 };
 
 namespace Layout {
-  inline int padding = 3;
+  inline int padding = 2;
   inline float radius = 10.0f;
 }
