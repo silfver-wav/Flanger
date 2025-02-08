@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Label.h"
 #include "lookandfeel/InvertPolarityLookAndFeel.h"
 #include "lookandfeel/ToggleButtonLookAndFeel.h"
 
@@ -10,7 +11,7 @@
 namespace Gui {
 class Button : public juce::Component {
 public:
-  Button(const std::string& name, auto id) {
+  Button(const std::string& name, auto id) : label(name) {
     // TODO: make a better solution for this lookAndFeel application
     if (id == ParamIDs::invertPolarity || id == ParamIDs::invertWet) {
       button.setLookAndFeel(&invertPolarityLookAndFeel);
@@ -18,32 +19,27 @@ public:
       button.setLookAndFeel(&toggleButtonLookAndFeel);
     }
     addAndMakeVisible(button);
-
-    label.setText(name, juce::dontSendNotification);
-    label.setColour(juce::Label::textColourId, juce::Colours::black);
-    label.setJustificationType(juce::Justification::centred);
     addAndMakeVisible(label);
   }
 
   void resized() override {
     auto area = getLocalBounds();
 
-    int buttonWidth = 35, buttonHeight = 35;
-    int buttonX = (area.getWidth() - buttonWidth) / 2;
-    int buttonY = (area.getHeight() - buttonHeight) / 2;
-    button.setBounds(buttonX, buttonY, buttonWidth, buttonHeight);
+    auto controlArea = area.removeFromTop(area.proportionOfHeight(0.8f));
+    auto labelArea = area;
 
-    int labelWidth = area.getWidth() - 16, labelHeight = 16;
-    int labelX = (area.getWidth() - labelWidth) / 2;
-    int labelY = area.getHeight() - labelHeight;
-    label.setBounds(labelX, labelY, labelWidth, labelHeight);
+    int buttonSize = 25;
+    int buttonX = (controlArea.getWidth() - buttonSize) / 2;
+    int buttonY = (getLocalBounds().getHeight() - buttonSize) / 2;
+    button.setBounds(buttonX, buttonY, buttonSize, buttonSize);
+
+    label.setBounds(labelArea.getX(), labelArea.getY(), labelArea.getWidth(), labelArea.getHeight());
   }
+
 
   juce::ToggleButton button;
 private:
-  juce::Label label;
-  int padding = 60;
-
+  Label label;
   InvertPolarityLookAndFeel invertPolarityLookAndFeel;
   ToggleButtonLookAndFeel toggleButtonLookAndFeel;
   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(Button)
