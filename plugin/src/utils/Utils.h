@@ -4,6 +4,7 @@
 namespace Colours {
   inline juce::Colour primaryColour = juce::Colour::fromRGB(171, 196, 220);
   inline juce::Colour secondaryColour = juce::Colours::blue;
+inline juce::Colour thirdaryColour = juce::Colour::fromRGB(157, 155, 166);
 };
 
 namespace Layout {
