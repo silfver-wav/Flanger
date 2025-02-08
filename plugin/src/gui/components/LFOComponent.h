@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../../utils/Utils.h"
 #include "../controls/Button.h"
 #include "../controls/ComboBox.h"
 #include "../controls/Group.h"
@@ -16,10 +17,11 @@ public:
         group("LFO"),
         lfoFreq("Frequency", ParamRange::lfoFreqStart, ParamRange::lfoFreqEnd, ParamRange::lfoFreqInterval, ParamRange::lfoFreqDefault),
         lfoSyncMode("Sync", ParamIDs::lfoSyncMode),
-        lfoRate("Rate", ParamRange::lfoRates),
+        lfoRate(ParamRange::lfoRates),
         lfoDepth("Depth", ParamRange::lfoDepthStart, ParamRange::lfoDepthEnd, ParamRange::lfoDepthInterval, ParamRange::lfoDepthDefault),
-        waveform("Waveform", ParamRange::waveformChoices),
-        stereo("Stereo", ParamRange::stereoStart, ParamRange::stereoEnd, ParamRange::stereoInterval, ParamRange::stereoDefault) {
+        waveform(ParamRange::waveformChoices),
+        stereo("Stereo", ParamRange::stereoStart, ParamRange::stereoEnd, ParamRange::stereoInterval, ParamRange::stereoDefault)
+  {
     addAndMakeVisible(group);
     addAndMakeVisible(lfoFreq);
     addAndMakeVisible(lfoRate);
@@ -68,19 +70,19 @@ public:
     auto componentArea = area;
 
     if (isSyncMode) {
-      lfoRate.setBounds(componentArea.removeFromLeft(componentWidthKnob).reduced(5));
+      lfoRate.setBounds(componentArea.removeFromLeft(componentWidthKnob));
       lfoFreq.setVisible(false);
       lfoRate.setVisible(true);
     } else {
-      lfoFreq.setBounds(componentArea.removeFromLeft(componentWidthKnob).reduced(5));
+      lfoFreq.setBounds(componentArea.removeFromLeft(componentWidthKnob));
       lfoFreq.setVisible(true);
       lfoRate.setVisible(false);
     }
 
-    lfoSyncMode.setBounds(componentArea.removeFromLeft(componentWidthButton).reduced(5));
-    lfoDepth.setBounds(componentArea.removeFromLeft(componentWidthKnob).reduced(5));
-    waveform.setBounds(componentArea.removeFromLeft(componentWidthButton).reduced(5));
-    stereo.setBounds(componentArea.removeFromLeft(componentWidthKnob).reduced(5));
+    lfoSyncMode.setBounds(componentArea.removeFromLeft(componentWidthButton));
+    lfoDepth.setBounds(componentArea.removeFromLeft(componentWidthKnob));
+    waveform.setBounds(componentArea.removeFromLeft(componentWidthButton));
+    stereo.setBounds(componentArea.removeFromLeft(componentWidthKnob));
   }
 
 

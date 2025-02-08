@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../../../utils/Utils.h"
+
 #include <juce_gui_basics/juce_gui_basics.h>
 
 class TransparentComboBoxLookAndFeel : public juce::LookAndFeel_V4 {

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../../utils/Utils.h"
 #include "../controls/Button.h"
 #include "../controls/Group.h"
 #include "../controls/Knob.h"
@@ -47,17 +48,18 @@ public:
     auto area = getLocalBounds();
     group.setBounds(-10, 1, area.getWidth(), area.getHeight());
 
-    int topPadding = 5;
+    int topPadding = 10;
     area = area.withTrimmedTop(topPadding);
 
     auto componentWidth = area.proportionOfWidth(0.25f);
-    auto componentArea = area;
 
-    delay.setBounds(componentArea.removeFromLeft(componentWidth).reduced(5));
-    invWet.setBounds(componentArea.removeFromLeft(componentWidth).reduced(5));
-    feedback.setBounds(componentArea.removeFromLeft(componentWidth).reduced(5));
-    invPolarity.setBounds(componentArea.removeFromLeft(componentWidth).reduced(5));
+    delay.setBounds(area.removeFromLeft(componentWidth));
+    invWet.setBounds(area.removeFromLeft(componentWidth));
+    feedback.setBounds(area.removeFromLeft(componentWidth));
+    invPolarity.setBounds(area.removeFromLeft(componentWidth));
   }
+
+
 
 private:
   juce::AudioProcessorValueTreeState &parameters;
