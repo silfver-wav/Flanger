@@ -28,7 +28,7 @@ public:
     auto controlArea = area.removeFromTop(area.proportionOfHeight(0.8f));
     auto labelArea = area;
 
-    int buttonSize = 25; // Fixed button size
+    int buttonSize = 25;
     int buttonX = (controlArea.getWidth() - buttonSize) / 2;
     int buttonY = (getLocalBounds().getHeight() - buttonSize) / 2;
     button.setBounds(buttonX, buttonY, buttonSize, buttonSize);

@@ -15,10 +15,6 @@ public:
     addAndMakeVisible(label);
   }
 
-  void paint(juce::Graphics &g) override {
-    g.fillAll(juce::Colours::whitesmoke);
-  }
-
   void resized() override {
     auto area = getLocalBounds();
     label.setBounds(0, 0, area.getWidth(), area.getHeight());

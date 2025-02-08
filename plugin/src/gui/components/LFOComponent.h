@@ -65,8 +65,8 @@ public:
     int topPadding = 5;
     area = area.withTrimmedTop(topPadding);
 
-    auto componentWidthKnob = area.proportionOfWidth(0.26f); // 0.22f
-    auto componentWidthButton = area.proportionOfWidth(0.11f); // 0.17f
+    auto componentWidthKnob = area.proportionOfWidth(0.22f); // 0.26f
+    auto componentWidthButton = area.proportionOfWidth(0.17f); // 0.11f
     auto componentArea = area;
 
     if (isSyncMode) {

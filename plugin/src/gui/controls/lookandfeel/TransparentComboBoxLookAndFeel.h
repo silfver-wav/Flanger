@@ -23,7 +23,7 @@ public:
     path.lineTo((float)arrowZone.getCentreX(), (float)arrowZone.getCentreY() + arrowSize);
     path.lineTo((float)arrowZone.getRight() - 4.0f, (float)arrowZone.getCentreY() - arrowSize);
 
-    g.setColour(juce::Colours::white);
+    g.setColour (box.findColour (juce::ComboBox::arrowColourId).withAlpha ((box.isEnabled() ? 0.9f : 0.2f)));
     g.strokePath(path, juce::PathStrokeType(1.5f));
   }
 

@@ -26,10 +26,6 @@ public:
     addAndMakeVisible(label);
   }
 
-  void paint(juce::Graphics &g) override {
-    g.fillAll(juce::Colours::whitesmoke);
-  }
-
   void resized() override {
     auto area = getLocalBounds().toFloat();
 

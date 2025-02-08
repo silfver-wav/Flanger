@@ -13,14 +13,11 @@ public:
     }
 
     comboBox.setColour(juce::ComboBox::textColourId, juce::Colours::black);
-    comboBox.setColour(juce::ComboBox::arrowColourId, juce::Colours::black);
     comboBox.setColour(juce::ComboBox::backgroundColourId, juce::Colours::transparentWhite);
     comboBox.setColour(juce::ComboBox::outlineColourId, juce::Colours::transparentWhite);
+    comboBox.setLookAndFeel(&transparentComboBoxLookAndFeel);
+    comboBox.setColour(juce::ComboBox::arrowColourId, juce::Colours::black);
     addAndMakeVisible(comboBox);
-  }
-
-  void paint(juce::Graphics &g) override {
-    g.fillAll(juce::Colours::whitesmoke);
   }
 
   void resized() override {
@@ -38,6 +35,7 @@ public:
 
   juce::ComboBox comboBox;
 private:
+  TransparentComboBoxLookAndFeel transparentComboBoxLookAndFeel;
 
   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ComboBoxKnob)
 };
