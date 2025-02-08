@@ -34,18 +34,19 @@ public:
   }
 
   void resized() override {
-    const auto container = getLocalBounds().reduced(2);
+    const auto container = getLocalBounds();
     auto bounds = container;
+    bounds.removeFromTop(proportionOfHeight(0.2f));
 
     saveButton.setBounds(
-        bounds.removeFromLeft(container.proportionOfWidth(0.2f)).reduced(2));
+        bounds.removeFromLeft(container.proportionOfWidth(0.15f)));
     previousPresetButton.setBounds(
-        bounds.removeFromLeft(container.proportionOfWidth(0.1f)).reduced(2));
+        bounds.removeFromLeft(container.proportionOfWidth(0.1f)));
     presetList.setBounds(
-        bounds.removeFromLeft(container.proportionOfWidth(0.4f)).reduced(2));
+        bounds.removeFromLeft(container.proportionOfWidth(0.5f)));
     nextPresetButton.setBounds(
-        bounds.removeFromLeft(container.proportionOfWidth(0.1f)).reduced(2));
-    deleteButton.setBounds(bounds.reduced(2));
+        bounds.removeFromLeft(container.proportionOfWidth(0.1f)));
+    deleteButton.setBounds(bounds);
   }
 
 private:
