@@ -5,16 +5,6 @@
 class TransparentComboBoxLookAndFeel : public juce::LookAndFeel_V4 {
 public:
 
-  juce::Font getComboBoxFont(juce::ComboBox&) override
-  {
-    return juce::Font("Arial", 12.0f, juce::Font::plain);
-  }
-
-  juce::Font getPopupMenuFont() override
-  {
-    return juce::Font("Arial", 12.0f, juce::Font::plain);
-  }
-
   void drawComboBox(juce::Graphics &g, int width, int height, bool isButtonDown,
                     int buttonX, int buttonY, int buttonW, int buttonH, juce::ComboBox &box) override {
     auto cornerSize = box.findParentComponentOfClass<juce::ChoicePropertyComponent>() != nullptr ? 0.0f : 3.0f;

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../../utils/Params.h"
+#include "../controls/LogoButton.h"
 #include "../controls/PresetPanel.h"
 #include "../controls/lookandfeel/PowerButtonLookAndFeel.h"
 
@@ -19,8 +20,7 @@ public:
     powerButtonAttachment =
     std::make_unique<juce::AudioProcessorValueTreeState::ButtonAttachment>(parameters, ParamIDs::power, powerButton);
 
-    textButton.setButtonText("Flanger");
-    addAndMakeVisible(textButton);
+    addAndMakeVisible(logoButton);
   }
 
   void paint (juce::Graphics& g) override {
@@ -33,7 +33,7 @@ public:
     area.removeFromTop(area.getHeight() * 0.1f);
 
     auto powerWidth = area.proportionOfWidth(0.09f);
-    auto rightButtonWidth = area.proportionOfWidth(0.1f);
+    auto rightButtonWidth = area.proportionOfWidth(0.09f);
     auto gapWidth = area.proportionOfWidth(0.09f);
     auto presetWidth = area.getWidth() - powerWidth - rightButtonWidth - (2 * gapWidth);
 
@@ -52,14 +52,14 @@ public:
     int presetPanelY = (presetArea.getHeight() - presetPanelHeight) / 2;
     presetPanel.setBounds(area.getWidth(), presetPanelY, presetPanelWidth, presetPanelHeight);
     area.removeFromLeft(gapWidth);
-    textButton.setBounds(area.removeFromLeft(rightButtonWidth));
+    logoButton.setBounds(area.removeFromLeft(rightButtonWidth));
   }
 
 
 private:
   juce::ToggleButton powerButton;
   PresetPanel presetPanel;
-  juce::TextButton textButton;
+  LogoButton logoButton;
   std::unique_ptr<juce::AudioProcessorValueTreeState::ButtonAttachment> powerButtonAttachment;
 
 
