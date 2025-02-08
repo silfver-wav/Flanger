@@ -30,7 +30,7 @@ public:
   void resized() override {
     auto area = getLocalBounds();
 
-    area.removeFromTop(area.getHeight() * 0.1f);
+    area.removeFromTop(area.getHeight() * 0.15f);
 
     auto powerWidth = area.proportionOfWidth(0.09f);
     auto rightButtonWidth = area.proportionOfWidth(0.09f);
@@ -48,7 +48,6 @@ public:
     auto presetArea = area.removeFromLeft(presetWidth);
     int presetPanelWidth = presetArea.getWidth();
     int presetPanelHeight = presetArea.getHeight();
-    // int presetPanelX = (presetArea.getWidth() - presetPanelWidth) / 2;
     int presetPanelY = (presetArea.getHeight() - presetPanelHeight) / 2;
     presetPanel.setBounds(area.getWidth(), presetPanelY, presetPanelWidth, presetPanelHeight);
     area.removeFromLeft(gapWidth);

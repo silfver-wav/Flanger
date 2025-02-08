@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../../../utils/Utils.h"
+
 #include <juce_gui_basics/juce_gui_basics.h>
 
 namespace Gui {
@@ -21,7 +23,7 @@ public:
 
     // Draw path of the slider background (in lighter background colour)
     drawArc(g, centreX, centreY, radius, rotaryStartAngle, rotaryEndAngle,
-            juce::Colours::dimgrey);
+            Colours::thirdaryColour);
 
     // Draw path of slider foreground (in black)
     drawArc(g, centreX, centreY, radius, rotaryStartAngle, angle,
