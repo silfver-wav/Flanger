@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.22)
 
-project(FlangerPlugin VERSION 0.0.1)
+project(FlangerPlugin VERSION 1.0.0)
 
 set(INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/include/FlangerPlugin")
 
@@ -9,8 +9,8 @@ juce_add_plugin(${PROJECT_NAME}
     IS_SYNTH FALSE
     NEEDS_MIDI_INPUT FALSE
     NEEDS_MIDI_OUTPUT FALSE
-    PLUGIN_MANUFACTURER_CODE MCMP
-    PLUGIN_CODE EXPL
+    PLUGIN_MANUFACTURER_CODE FLNG
+    PLUGIN_CODE FL01
     FORMATS Standalone VST3
     PRODUCT_NAME "Flanger"
 )
